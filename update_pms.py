@@ -74,10 +74,10 @@ def update_html(prices):
     with open(filename, 'r', encoding='utf-8') as f:
         html = f.read()
 
-    # 1. 更新資料時間標籤
+    # 1. 更新即時股價時間標籤
     html = re.sub(
-        r'<strong>Google資料：</strong>.*?</span>',
-        f'<strong>Google資料：</strong>{now_str}</span>',
+        r'<strong>即時股價：</strong>.*?</span>',
+        f'<strong>即時股價：</strong>{now_str}</span>',
         html
     )
     
