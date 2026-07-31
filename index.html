@@ -1,0 +1,259 @@
+<section class="statusbar" aria-label="資料狀態">
+  <span class="status-times">
+    <span><strong>Google資料：</strong>2026-07-31 17:29</span>
+  </span>
+  <span class="status-chip"><span class="dot"></span>快速載入・資料封存</span>
+</section>
+
+<nav class="tabs" aria-label="看板分頁">
+  <button class="tab active" type="button" data-panel="overview">總覽</button>
+  <button class="tab" type="button" data-panel="allocation">占比</button>
+  <button class="tab" type="button" data-panel="holdings">個股</button>
+  <button class="tab" type="button" data-panel="loan">質押</button>
+  <button class="tab" type="button" data-panel="performance">績效</button>
+</nav>
+
+<!-- 1. 總覽頁籤 -->
+<section class="panel active" id="overview">
+  <article class="card overview-card">
+    <div class="card-head"><h2 class="card-title">總投資</h2><span class="basis">KPMS 口徑</span></div>
+    <div class="hero">
+      <p class="hero-label">今日／前日損益</p>
+      <p class="hero-value positive">+99,409</p>
+    </div>
+    <dl>
+      <div class="metric"><dt>市值</dt><dd class="neutral">2,297,922</dd></div>
+      <div class="metric"><dt>成本</dt><dd class="neutral">2,207,208</dd></div>
+      <div class="metric"><dt>未實現損益</dt><dd class="positive">+90,715</dd></div>
+      <div class="metric"><dt>報酬率</dt><dd class="positive">+4.11%</dd></div>
+    </dl>
+  </article>
+
+  <div class="overview-secondary">
+    <article class="card overview-card">
+      <div class="card-head"><h2 class="card-title">自有股</h2><span class="basis">券商口徑</span></div>
+      <div class="hero">
+        <p class="hero-label">今日／前日損益</p>
+        <p class="hero-value positive">+32,342</p>
+      </div>
+      <dl>
+        <div class="metric"><dt>預估現值</dt><dd class="neutral">563,982</dd></div>
+        <div class="metric"><dt>券商成本</dt><dd class="neutral">557,392</dd></div>
+        <div class="metric"><dt>未實現損益</dt><dd class="positive">+6,590</dd></div>
+        <div class="metric"><dt>報酬率</dt><dd class="positive">+1.18%</dd></div>
+      </dl>
+    </article>
+
+    <article class="card overview-card">
+      <div class="card-head"><h2 class="card-title">質押股</h2><span class="basis">KPMS 口徑</span></div>
+      <div class="hero">
+        <p class="hero-label">今日／前日損益</p>
+        <p class="hero-value positive">+74,990</p>
+      </div>
+      <dl>
+        <div class="metric"><dt>市值</dt><dd class="neutral">1,733,940</dd></div>
+        <div class="metric"><dt>成本</dt><dd class="neutral">1,649,816</dd></div>
+        <div class="metric"><dt>未實現損益</dt><dd class="positive">+84,125</dd></div>
+        <div class="metric"><dt>報酬率</dt><dd class="positive">+5.10%</dd></div>
+      </dl>
+    </article>
+  </div>
+  <p class="notice">自有股採券商預估淨額；總投資與質押股採 KPMS 內部成本口徑，三區用途不同，不直接相加對帳。</p>
+</section>
+
+<!-- 2. 占比頁籤 -->
+<section class="panel" id="allocation">
+  <div class="section-title"><h2>各股持股占比</h2><span>市值合計 100%</span></div>
+  <div class="card">
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>元大台灣50</strong><strong class="neutral">35.46%</strong></div>
+      <div class="allocation-meta"><span>市值 814,709</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:35.5%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>凱基台灣TOP50</strong><strong class="neutral">24.22%</strong></div>
+      <div class="allocation-meta"><span>市值 556,644</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:24.2%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>主動統一台股增長</strong><strong class="neutral">20.46%</strong></div>
+      <div class="allocation-meta"><span>市值 470,160</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:20.5%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>主動統一升級50</strong><strong class="neutral">10.87%</strong></div>
+      <div class="allocation-meta"><span>市值 249,714</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:10.9%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>台積電</strong><strong class="neutral">6.31%</strong></div>
+      <div class="allocation-meta"><span>市值 145,020</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:6.3%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>主動凱基台灣</strong><strong class="neutral">2.58%</strong></div>
+      <div class="allocation-meta"><span>市值 59,338</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:2.6%"></span></div>
+    </article>
+    <article class="allocation-row">
+      <div class="allocation-main"><strong>王品</strong><strong class="neutral">0.10%</strong></div>
+      <div class="allocation-meta"><span>市值 2,337</span><span>占全部持股</span></div>
+      <div class="allocation-meter"><span style="width:0.1%"></span></div>
+    </article>
+  </div>
+  <p class="notice">持股占比＝各股市值 ÷ 全部持股總市值。最大持股為 元大台灣50 35.46%。</p>
+</section>
+
+<!-- 3. 個股頁籤 -->
+<section class="panel" id="holdings">
+  <div class="section-title"><h2>自有股損益率</h2><span>7 檔</span></div>
+  <div class="holding-summary">
+    <div class="holding-summary-item"><span>獲利／虧損</span><strong><span class="positive" style="display:inline">3 檔</span>／<span class="negative" style="display:inline">4 檔</span></strong></div>
+    <div class="holding-summary-item"><span>最佳表現</span><strong class="positive">元大台灣50 +5.65%</strong></div>
+    <div class="holding-summary-item"><span>最低表現</span><strong class="negative">王品 -5.61%</strong></div>
+    <div class="holding-summary-item"><span>顏色</span><strong><span class="positive" style="display:inline">紅漲</span>／<span class="negative" style="display:inline">綠跌</span></strong></div>
+  </div>
+  <div class="card">
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>主動統一升級50</h3><p>3,000 股・均價 9.60</p></div><div class="holding-price"><strong>9.25</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 27,714</span><span>未實現 <strong class="negative">-1,085</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="negative">-3.77%</strong></div>
+      <div class="return-meter"><span class="negative" style="width:18.9%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>主動凱基台灣</h3><p>2,000 股・均價 8.89</p></div><div class="holding-price"><strong>8.48</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 16,938</span><span>未實現 <strong class="negative">-848</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="negative">-4.77%</strong></div>
+      <div class="return-meter"><span class="negative" style="width:23.9%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>元大台灣50</h3><p>1,924 股・均價 97.18</p></div><div class="holding-price"><strong>102.85</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 197,609</span><span>未實現 <strong class="positive">+10,561</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="positive">+5.65%</strong></div>
+      <div class="return-meter"><span class="positive" style="width:28.3%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>凱基台灣TOP50</h3><p>3,000 股・均價 14.25</p></div><div class="holding-price"><strong>14.65</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 43,894</span><span>未實現 <strong class="positive">+1,137</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="positive">+2.66%</strong></div>
+      <div class="return-meter"><span class="positive" style="width:13.3%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>主動統一台股增長</h3><p>5,000 股・均價 27.33</p></div><div class="holding-price"><strong>26.13</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 130,470</span><span>未實現 <strong class="negative">-6,233</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="negative">-4.56%</strong></div>
+      <div class="return-meter"><span class="negative" style="width:22.8%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>台積電</h3><p>60 股・均價 2,362.92</p></div><div class="holding-price"><strong>2,425.00</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 145,020</span><span>未實現 <strong class="positive">+3,197</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="positive">+2.25%</strong></div>
+      <div class="return-meter"><span class="positive" style="width:11.3%"></span></div>
+    </article>
+    <article class="holding-row">
+      <div class="holding-main"><div><h3>王品</h3><p>10 股・均價 247.50</p></div><div class="holding-price"><strong>234.50</strong><span>市價</span></div></div>
+      <div class="holding-result"><span>現值 2,337</span><span>未實現 <strong class="negative">-139</strong></span></div>
+      <div class="holding-return"><span>個股損益率</span><strong class="negative">-5.61%</strong></div>
+      <div class="return-meter"><span class="negative" style="width:28.1%"></span></div>
+    </article>
+  </div>
+  <p class="notice">損益率＝未實現損益 ÷ 成本。色條以 20% 為滿格；紅色代表正數，深綠色代表負數。</p>
+</section>
+
+<!-- 4. 質押頁籤 -->
+<section class="panel" id="loan">
+  <div class="section-title"><h2>質押股各股獲利率</h2><span>5 檔</span></div>
+  <div class="card">
+    <article class="pledged-stock-row">
+      <div class="pledged-stock-main"><div><strong>元大台灣50</strong><span>6,000 股</span></div><strong class="positive">+21.02%</strong></div>
+      <div class="pledged-stock-meta"><span>質押市值 617,100</span><span>損益 <strong class="positive">+107,190</strong></span></div>
+      <div class="return-meter"><span class="positive" style="width:100.0%"></span></div>
+    </article>
+    <article class="pledged-stock-row">
+      <div class="pledged-stock-main"><div><strong>主動凱基台灣</strong><span>5,000 股</span></div><strong class="negative">-12.39%</strong></div>
+      <div class="pledged-stock-meta"><span>質押市值 42,400</span><span>損益 <strong class="negative">-5,998</strong></span></div>
+      <div class="return-meter"><span class="negative" style="width:62.0%"></span></div>
+    </article>
+    <article class="pledged-stock-row">
+      <div class="pledged-stock-main"><div><strong>主動統一升級50</strong><span>24,000 股</span></div><strong class="negative">-11.66%</strong></div>
+      <div class="pledged-stock-meta"><span>質押市值 222,000</span><span>損益 <strong class="negative">-29,295</strong></span></div>
+      <div class="return-meter"><span class="negative" style="width:58.3%"></span></div>
+    </article>
+    <article class="pledged-stock-row">
+      <div class="pledged-stock-main"><div><strong>主動統一台股增長</strong><span>13,000 股</span></div><strong class="negative">-12.90%</strong></div>
+      <div class="pledged-stock-meta"><span>質押市值 339,690</span><span>損益 <strong class="negative">-50,299</strong></span></div>
+      <div class="return-meter"><span class="negative" style="width:64.5%"></span></div>
+    </article>
+    <article class="pledged-stock-row">
+      <div class="pledged-stock-main"><div><strong>凱基台灣TOP50</strong><span>35,000 股</span></div><strong class="positive">+13.89%</strong></div>
+      <div class="pledged-stock-meta"><span>質押市值 512,750</span><span>損益 <strong class="positive">+62,527</strong></span></div>
+      <div class="return-meter"><span class="positive" style="width:69.5%"></span></div>
+    </article>
+  </div>
+  <p class="notice">質押股獲利率＝（質押股市值－質押股成本）÷ 質押股成本。紅色為獲利，深綠色為虧損。</p>
+
+  <div class="section-title"><h2>質押借款摘要</h2><span>資料 2026/07/31</span></div>
+  <div class="summary-grid">
+    <div class="summary-tile"><span>已借款本金</span><strong>643,968</strong><small>6 筆未清償</small></div>
+    <div class="summary-tile"><span>尚可借款</span><strong>411,546</strong><small>核定上限 1,055,514</small></div>
+    <div class="summary-tile"><span>累計利息</span><strong>471</strong><small>應還 644,439</small></div>
+    <div class="summary-tile"><span>維持率</span><strong>269.26%</strong><small>質押 83,000 股</small></div>
+  </div>
+  <div class="section-title"><h2>借款明細</h2><span>本金／利息</span></div>
+  <div class="card">
+    <article class="loan-row"><div class="loan-number">1</div><div class="loan-dates"><strong>2026/07/07</strong><span>到期 2027/01/06</span></div><div class="loan-money"><strong>13,968</strong><span>利息 42</span></div></article>
+    <article class="loan-row"><div class="loan-number">2</div><div class="loan-dates"><strong>2026/07/07</strong><span>到期 2027/01/06</span></div><div class="loan-money"><strong>10,000</strong><span>利息 37</span></div></article>
+    <article class="loan-row"><div class="loan-number">3</div><div class="loan-dates"><strong>2026/07/13</strong><span>到期 2027/01/12</span></div><div class="loan-money"><strong>100,000</strong><span>利息 265</span></div></article>
+    <article class="loan-row"><div class="loan-number">4</div><div class="loan-dates"><strong>2026/07/22</strong><span>到期 2027/01/21</span></div><div class="loan-money"><strong>100,000</strong><span>利息 106</span></div></article>
+    <article class="loan-row"><div class="loan-number">5</div><div class="loan-dates"><strong>2026/07/27</strong><span>到期 2027/01/26</span></div><div class="loan-money"><strong>120,000</strong><span>利息 21</span></div></article>
+    <article class="loan-row"><div class="loan-number">6</div><div class="loan-dates"><strong>2026/07/29</strong><span>到期 2027/01/28</span></div><div class="loan-money"><strong>300,000</strong><span>利息 0</span></div></article>
+  </div>
+  <p class="notice">質押借款採統一質押池管理，不分配到個別股票，也不寫入股票成本。</p>
+</section>
+
+<!-- 5. 績效頁籤 -->
+<section class="panel" id="performance">
+  <div class="section-title"><h2>期間績效</h2><span id="performanceStatus">OK</span></div>
+  <div class="period-controls">
+    <div class="preset-row">
+      <button class="preset-button active" type="button">本年度</button>
+      <button class="preset-button" type="button">上半年</button>
+    </div>
+    <div class="date-inputs">
+      <label class="date-field">開始日期<input type="date" value="2026-01-01"></label>
+      <label class="date-field">結束日期<input type="date" value="2026-07-31"></label>
+    </div>
+    <button class="apply-period" type="button">套用日期</button>
+    <p class="period-message">最新截止日包含目前未實現損益。</p>
+  </div>
+  <div class="date-range">2026/01/01 ～ 2026/07/31</div>
+  <article class="card">
+    <dl>
+      <div class="metric"><dt>已實現損益</dt><dd class="negative">-82,141</dd></div>
+      <div class="metric"><dt>已入帳股息</dt><dd class="positive">19,405</dd></div>
+      <div class="metric"><dt>質押利息</dt><dd class="negative">-471</dd></div>
+      <div class="metric"><dt>現金淨損益</dt><dd class="negative">-63,207</dd></div>
+      <div class="metric"><dt>期末未實現</dt><dd class="positive">+90,715</dd></div>
+    </dl>
+  </article>
+  <article class="card">
+    <div class="card-head"><h2 class="card-title">期間總獲利</h2><span class="basis">完整口徑</span></div>
+    <div class="hero">
+      <p class="hero-label">總獲利</p>
+      <p class="hero-value positive">+27,508</p>
+    </div>
+    <dl>
+      <div class="metric"><dt>投入本金</dt><dd class="positive">1,914,509</dd></div>
+      <div class="metric"><dt>期間報酬率</dt><dd class="positive">+1.44%</dd></div>
+      <div class="metric"><dt>待入帳股息（參考）</dt><dd class="neutral">0.00</dd></div>
+    </dl>
+  </article>
+</section>
+
+<div class="actions">
+  <button class="action primary" type="button" onclick="location.reload()">重新載入</button>
+  <a class="action" href="https://docs.google.com/spreadsheets/d/18xpavzjr4JK08YINfnBEGGD38K1XCkQhe_STC9FRCKQ/edit" target="_blank" rel="noreferrer">開啟完整 PMS</a>
+  <a class="action print" href="javascript:window.print()">大字版 PDF／列印</a>
+</div>
+<div class="verified"><span class="dot"></span>來源驗證 OK</div>
+<footer>K股票PMS 手機看板 V2.0｜私人唯讀版</footer>
