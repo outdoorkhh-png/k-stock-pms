@@ -1,0 +1,169 @@
+name: Update Yahoo Quotes JSON V2
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 台灣時間週一至週五 09:00–13:45，每15分鐘更新
+    - cron: "*/15 1-5 * * 1-5"
+    # 台灣時間 14:00 再做一次收盤更新
+    - cron: "0 6 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yahoo-quotes-update-v2
+  cancel-in-progress: true
+
+jobs:
+  update-quotes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install Yahoo data package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "yfinance==1.5.1" pandas
+
+      - name: Fetch all Yahoo Taiwan quotes in one batch
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import time
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          import pandas as pd
+          import yfinance as yf
+
+          SYMBOLS = [
+              "00403A.TW",
+              "00407A.TW",
+              "0050.TW",
+              "009816.TW",
+              "00981A.TW",
+              "2330.TW",
+              "2727.TW",
+          ]
+
+          def fetch_batch():
+              last_error = None
+              for attempt in range(3):
+                  try:
+                      data = yf.download(
+                          tickers=" ".join(SYMBOLS),
+                          period="5d",
+                          interval="1d",
+                          group_by="ticker",
+                          auto_adjust=False,
+                          progress=False,
+                          threads=False,
+                          timeout=40,
+                      )
+                      if data is None or data.empty:
+                          raise RuntimeError("Yahoo回傳空資料")
+                      return data
+                  except Exception as exc:
+                      last_error = exc
+                      print(f"第 {attempt + 1} 次Yahoo批次抓取失敗：{exc}")
+                      if attempt < 2:
+                          time.sleep(45 * (attempt + 1))
+              raise RuntimeError(f"Yahoo批次抓取失敗：{last_error}")
+
+          def market_time_from_index(value):
+              ts = pd.Timestamp(value)
+              if ts.tzinfo is None:
+                  ts = ts.tz_localize("Asia/Taipei")
+              else:
+                  ts = ts.tz_convert("Asia/Taipei")
+              return int(ts.timestamp())
+
+          data = fetch_batch()
+          quotes = {}
+          errors = {}
+
+          for symbol in SYMBOLS:
+              try:
+                  if not isinstance(data.columns, pd.MultiIndex):
+                      raise RuntimeError("Yahoo批次資料缺少股票層級")
+
+                  if symbol not in data.columns.get_level_values(0):
+                      raise RuntimeError("Yahoo批次資料缺少此股票")
+
+                  frame = data[symbol].copy()
+                  if "Close" not in frame.columns:
+                      raise RuntimeError("缺少Close欄位")
+
+                  close = pd.to_numeric(frame["Close"], errors="coerce").dropna()
+                  if len(close) < 2:
+                      raise RuntimeError("至少需要兩個交易日收盤資料")
+
+                  current_price = float(close.iloc[-1])
+                  previous_close = float(close.iloc[-2])
+                  market_time = market_time_from_index(close.index[-1])
+
+                  quotes[symbol] = {
+                      "symbol": symbol,
+                      "price": round(current_price, 4),
+                      "previousClose": round(previous_close, 4),
+                      "marketTime": market_time,
+                      "currency": "TWD",
+                      "exchangeName": "TAI",
+                  }
+                  print(
+                      f"OK {symbol}: 現價={current_price}, "
+                      f"前收={previous_close}"
+                  )
+              except Exception as exc:
+                  errors[symbol.replace(".TW", "")] = str(exc)
+                  print(f"FAIL {symbol}: {exc}")
+
+          result = {
+              "version": "2.0",
+              "source": "Yahoo股市台灣版（GitHub雲端批次）",
+              "generatedAt": datetime.now(timezone.utc).isoformat(),
+              "expected": len(SYMBOLS),
+              "count": len(quotes),
+              "complete": len(quotes) == len(SYMBOLS),
+              "quotes": quotes,
+              "errors": errors,
+          }
+
+          if not result["complete"]:
+              Path("quotes-error.json").write_text(
+                  json.dumps(result, ensure_ascii=False, indent=2),
+                  encoding="utf-8",
+              )
+              raise SystemExit(
+                  f"Yahoo quotes incomplete: {len(quotes)}/{len(SYMBOLS)}"
+              )
+
+          output = Path("quotes.json")
+          output.write_text(
+              json.dumps(result, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+          print("quotes.json written")
+          PY
+
+      - name: Commit quotes.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quotes.json
+
+          if git diff --cached --quiet; then
+            echo "No quote changes"
+            exit 0
+          fi
+
+          git commit -m "Update Yahoo quotes V2"
+          git pull --rebase origin main
+          git push
