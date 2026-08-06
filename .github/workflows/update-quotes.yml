@@ -1,0 +1,218 @@
+name: Update Yahoo Quotes JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 台灣時間週一至週五 09:00–13:45，每15分鐘更新
+    - cron: "*/15 1-5 * * 1-5"
+    # 台灣時間 14:00 再做一次收盤後更新
+    - cron: "0 6 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yahoo-quotes-update
+  cancel-in-progress: true
+
+jobs:
+  update-quotes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install requests
+        run: python -m pip install --disable-pip-version-check requests
+
+      - name: Fetch Yahoo Taiwan quotes
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import time
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          import requests
+
+          SYMBOLS = [
+              "00403A.TW",
+              "00407A.TW",
+              "0050.TW",
+              "009816.TW",
+              "00981A.TW",
+              "2330.TW",
+              "2727.TW",
+          ]
+
+          HEADERS = {
+              "User-Agent": (
+                  "Mozilla/5.0 (X11; Linux x86_64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/126.0 Safari/537.36"
+              ),
+              "Accept": "application/json,text/plain,*/*",
+              "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
+          }
+
+          def last_valid_previous_close(result, market_time):
+              timestamps = result.get("timestamp") or []
+              closes = (
+                  (((result.get("indicators") or {}).get("quote") or [{}])[0])
+                  .get("close")
+                  or []
+              )
+              pairs = [
+                  (int(ts), float(close))
+                  for ts, close in zip(timestamps, closes)
+                  if close is not None
+              ]
+              if not pairs:
+                  return None
+
+              # 若最後一筆就是目前交易日，前一筆才是前收。
+              market_date = datetime.fromtimestamp(
+                  int(market_time), timezone.utc
+              ).astimezone().date()
+              dated = [
+                  (
+                      datetime.fromtimestamp(ts, timezone.utc)
+                      .astimezone()
+                      .date(),
+                      close,
+                  )
+                  for ts, close in pairs
+              ]
+              prior = [close for d, close in dated if d < market_date]
+              return prior[-1] if prior else None
+
+          def fetch_symbol(symbol):
+              errors = []
+              for host in (
+                  "query1.finance.yahoo.com",
+                  "query2.finance.yahoo.com",
+              ):
+                  url = (
+                      f"https://{host}/v8/finance/chart/{symbol}"
+                      "?interval=1d&range=5d"
+                  )
+                  for attempt in range(3):
+                      try:
+                          response = requests.get(
+                              url,
+                              headers=HEADERS,
+                              timeout=20,
+                          )
+                          response.raise_for_status()
+                          payload = response.json()
+                          result = ((payload.get("chart") or {}).get("result") or [None])[0]
+                          if not result:
+                              raise ValueError("Yahoo result is empty")
+
+                          meta = result.get("meta") or {}
+                          price = meta.get("regularMarketPrice")
+                          market_time = meta.get("regularMarketTime")
+
+                          # 前收優先使用 previousClose；chartPreviousClose 只作後備。
+                          previous_close = (
+                              meta.get("previousClose")
+                              or meta.get("regularMarketPreviousClose")
+                              or last_valid_previous_close(result, market_time)
+                              or meta.get("chartPreviousClose")
+                          )
+
+                          if price is None or previous_close is None or market_time is None:
+                              raise ValueError("Missing price, previousClose, or marketTime")
+
+                          return {
+                              "symbol": symbol,
+                              "price": round(float(price), 4),
+                              "previousClose": round(float(previous_close), 4),
+                              "marketTime": int(market_time),
+                              "currency": meta.get("currency") or "TWD",
+                              "exchangeName": meta.get("exchangeName") or "",
+                          }
+                      except Exception as exc:
+                          errors.append(f"{host} attempt {attempt + 1}: {exc}")
+                          time.sleep(2 + attempt)
+
+              raise RuntimeError(" | ".join(errors[-4:]))
+
+          quotes = {}
+          errors = {}
+
+          for symbol in SYMBOLS:
+              try:
+                  quotes[symbol] = fetch_symbol(symbol)
+                  print(f"OK {symbol}: {quotes[symbol]['price']}")
+              except Exception as exc:
+                  errors[symbol.replace(".TW", "")] = str(exc)
+                  print(f"FAIL {symbol}: {exc}")
+
+          result = {
+              "version": "1.0",
+              "source": "Yahoo股市台灣版（GitHub雲端）",
+              "generatedAt": datetime.now(timezone.utc).isoformat(),
+              "expected": len(SYMBOLS),
+              "count": len(quotes),
+              "complete": len(quotes) == len(SYMBOLS),
+              "quotes": quotes,
+              "errors": errors,
+          }
+
+          if not result["complete"]:
+              Path("quotes-error.json").write_text(
+                  json.dumps(result, ensure_ascii=False, indent=2),
+                  encoding="utf-8",
+              )
+              raise SystemExit(
+                  f"Yahoo quotes incomplete: {len(quotes)}/{len(SYMBOLS)}"
+              )
+
+          output = Path("quotes.json")
+          new_text = json.dumps(result, ensure_ascii=False, indent=2)
+
+          # 行情完全相同時，不製造多餘提交。
+          if output.exists():
+              try:
+                  old = json.loads(output.read_text(encoding="utf-8"))
+                  old_compare = {
+                      "quotes": old.get("quotes"),
+                      "complete": old.get("complete"),
+                      "errors": old.get("errors"),
+                  }
+                  new_compare = {
+                      "quotes": result.get("quotes"),
+                      "complete": result.get("complete"),
+                      "errors": result.get("errors"),
+                  }
+                  if old_compare == new_compare:
+                      print("Quotes unchanged; keep existing quotes.json")
+                      raise SystemExit(0)
+              except json.JSONDecodeError:
+                  pass
+
+          output.write_text(new_text, encoding="utf-8")
+          print("quotes.json written")
+          PY
+
+      - name: Commit quotes.json
+        run: |
+          if [ ! -f quotes.json ]; then
+            echo "quotes.json was not generated"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quotes.json
+
+          if git diff --cached --quiet; then
+            echo "No quote changes"
+            exit 0
+          fi
+
+          git commit -m "Update Yahoo quotes"
+          git pull --rebase origin main
+          git push
