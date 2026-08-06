@@ -1,259 +1,833 @@
-<section class="statusbar" aria-label="資料狀態">
-  <span class="status-times">
-    <span><strong>Google資料：</strong>2026-08-01 00:27</span>
-  </span>
-  <span class="status-chip"><span class="dot"></span>快速載入・資料封存</span>
-</section>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#103655">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>K股票PMS V3C.0.13｜Android本地測試版</title>
+<style>
+:root{--navy:#103655;--blue:#24729f;--paper:#edf3f6;--card:#fff;--ink:#142837;--muted:#71818e;--line:#d8e2e8;--positive:#c00000;--negative:#006400;--warn:#956d00;--shadow:0 10px 28px rgba(17,52,80,.10)}
+*{box-sizing:border-box}html{font-size:17px;background:var(--paper)}body{margin:0;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;background:linear-gradient(180deg,#dcecf5 0,#edf3f6 270px)}button,input{font:inherit}.app{width:min(100%,720px);margin:auto;padding:max(14px,env(safe-area-inset-top)) 12px calc(84px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand h1{margin:0;color:var(--navy);font-size:1.18rem}.brand p{margin:4px 0 0;color:#577387;font-size:.74rem}.badge{padding:7px 9px;border-radius:999px;background:#fff;color:var(--navy);font-size:.68rem;font-weight:900;box-shadow:var(--shadow)}
+.status{margin:11px 0;padding:10px 11px;border-radius:14px;background:rgba(255,255,255,.93);display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:.76rem;box-shadow:0 5px 18px rgba(18,49,75,.06)}.status strong{color:var(--navy)}.dot{width:10px;height:10px;border-radius:50%;background:#16824d;display:inline-block;margin-right:7px}.status.warn .dot{background:#bd8a00}.status.error .dot{background:#982525}
+.view{display:none}.view.active{display:block}.hero{padding:17px;border-radius:22px;color:#fff;background:linear-gradient(145deg,var(--navy),#1e6898);box-shadow:0 15px 36px rgba(15,49,81,.2)}.hero-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.hero small{color:rgba(255,255,255,.75)}.hero-value{margin-top:8px;font-size:clamp(2rem,10vw,3rem);font-weight:950;letter-spacing:-.04em}.hero-rate{width:92px;height:92px;min-width:92px;padding:0;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1;border-radius:50%;background:rgba(255,255,255,.16);font-weight:900;font-size:1.12rem}.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.hero-stat{padding:10px;border-radius:14px;background:rgba(255,255,255,.1)}.hero-stat span{display:block;color:rgba(255,255,255,.7);font-size:.69rem}.hero-stat strong{display:block;margin-top:4px;font-size:.92rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.mini{padding:13px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:var(--shadow)}.mini span{display:block;color:var(--muted);font-size:.72rem}.mini strong{display:block;margin-top:7px;font-size:1.08rem}.mini small{display:block;margin-top:4px;color:var(--muted);font-size:.68rem}.title{display:flex;justify-content:space-between;align-items:center;margin:17px 2px 9px}.title h2{margin:0;color:var(--navy);font-size:1rem}.title span{color:var(--muted);font-size:.72rem}
+.panel{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);margin-bottom:11px}.item{padding:12px 13px;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.item-top,.item-bottom{display:flex;justify-content:space-between;gap:10px;align-items:center}.item-top strong{font-size:.89rem}.item-bottom{margin-top:7px;color:var(--muted);font-size:.73rem}.positive{color:var(--positive)!important}.negative{color:var(--negative)!important}.neutral{color:var(--navy)!important}
+.csv-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.csv{padding:9px 8px;border:1px solid rgba(255,255,255,.75);border-radius:14px;background:rgba(255,255,255,.88);box-shadow:0 5px 15px rgba(18,49,75,.05)}.csv span{display:block;color:var(--muted);font-size:.65rem}.csv strong{display:block;margin-top:4px;font-size:.72rem;line-height:1.3}
+.import-box{padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);margin-bottom:11px}.import-box h3{margin:0 0 5px;color:var(--navy);font-size:.94rem}.import-box p{margin:0 0 11px;color:var(--muted);font-size:.73rem;line-height:1.5}.file-label{display:flex;align-items:center;justify-content:center;min-height:48px;border:2px dashed #9eb8c8;border-radius:14px;background:#f7fbfd;color:var(--navy);font-weight:900;cursor:pointer}.file-label input{display:none}.file-list{margin-top:10px;display:grid;gap:7px}.file-card{padding:10px;border:1px solid var(--line);border-radius:12px;background:#f9fbfc;font-size:.73rem}.file-card strong{display:block}.file-card span{color:var(--muted)}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.btn{min-height:45px;border:1px solid #c8d6df;border-radius:13px;background:#fff;color:var(--navy);font-weight:900;cursor:pointer}.btn.primary{color:#fff;background:var(--navy);border-color:var(--navy)}.btn.danger{color:#8b2020}.btn.full{grid-column:1/-1}.btn:disabled{opacity:.45}.notice{padding:11px 12px;border-radius:14px;background:#fff5d9;color:#6e5511;font-size:.75rem;line-height:1.55;margin-bottom:11px}.okbox{background:#e8f5ee;color:#175d3a}.errorbox{background:#fbe9e9;color:#832727}
+.period-picker{padding:13px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);margin-bottom:11px}
+.quick-periods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:11px}
+.quick-btn{min-height:39px;border:1px solid #c8d6df;border-radius:11px;background:#fff;color:var(--navy);font-size:.7rem;font-weight:900}
+.quick-btn.active{color:#fff;background:var(--navy);border-color:var(--navy)}
+.date-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.date-row label{color:var(--muted);font-size:.68rem;font-weight:800}
+.date-row input{display:block;width:100%;margin-top:5px;padding:9px 8px;border:1px solid #c8d6df;border-radius:11px;background:#fff;color:var(--ink);font-size:.76rem}
+.period-hero{padding:15px 13px;border-bottom:1px solid var(--line);background:linear-gradient(145deg,#f2f8fb,#fff)}
+.period-hero span{display:block;color:var(--muted);font-size:.7rem}
+.period-hero strong{display:block;margin-top:5px;font-size:1.6rem}
+.period-meta{display:flex;justify-content:space-between;gap:8px;margin-top:7px;color:var(--muted);font-size:.67rem}
+.snapshot-tag{padding:3px 7px;border-radius:999px;background:#e8f5ee;color:#175d3a;font-weight:900}
+.snapshot-tag.approx{background:#fff2cf;color:#755500}
+.annual-summary{display:grid;grid-template-columns:1.15fr .85fr;gap:9px;padding:12px 13px;border-bottom:1px solid var(--line)}
+.annual-main span,.annual-side span{display:block;color:var(--muted);font-size:.7rem}
+.annual-main strong{display:block;margin-top:5px;font-size:1.45rem}
+.annual-side{text-align:right}.annual-side strong{display:block;margin-top:5px;font-size:1.05rem}
+.annual-grid{display:grid;grid-template-columns:1fr 1fr}
+.annual-cell{padding:11px 13px;border-bottom:1px solid var(--line)}
+.annual-cell:nth-child(odd){border-right:1px solid var(--line)}
+.annual-cell span{display:block;color:var(--muted);font-size:.68rem}
+.annual-cell strong{display:block;margin-top:5px;font-size:.9rem}
+.annual-note{padding:10px 13px;color:var(--muted);font-size:.68rem;line-height:1.5;background:#f8fbfc}
+.audit{max-height:310px;overflow:auto}.audit time{display:block;color:var(--muted);font-size:.65rem}.bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:20;width:min(100%,720px);display:grid;grid-template-columns:repeat(6,1fr);gap:3px;padding:7px 8px calc(7px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(255,255,255,.95);backdrop-filter:blur(15px)}.nav-btn{min-height:50px;padding:3px 1px;border:0;border-radius:13px;background:transparent;color:#71818e;font-size:.61rem;font-weight:850;cursor:pointer}.nav-btn b{display:block;font-size:1.1rem;line-height:1.1}.nav-btn.active{color:#fff;background:var(--navy)}
+@media(max-width:380px){.hero-rate{width:78px;height:78px;min-width:78px;font-size:1rem}.hero-value{font-size:2rem}}@page{size:A4;margin:10mm}@media print{html,body{background:#fff;font-size:12px}.app{width:100%;padding:0}.top,.status,.bottom-nav,.no-print{display:none!important}.view{display:block!important}.hero{box-shadow:none;background:#fff;color:#111;border:1px solid #aaa}.hero small,.hero-stat span{color:#555}.hero-stat{background:#f7f7f7}.panel,.mini,.csv,.import-box{box-shadow:none;break-inside:avoid}.title{break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand"><h1>K股票PMS V3C</h1><p>GitHub Pages 公開安全版・私人資料只留在本機</p></div><span class="badge">LOCAL</span></div>
+  <div class="status" id="status"><div><span class="dot"></span><strong id="statusText">本機資料已載入</strong></div><span id="asOf">—</span></div>
 
-<nav class="tabs" aria-label="看板分頁">
-  <button class="tab active" type="button" data-panel="overview">總覽</button>
-  <button class="tab" type="button" data-panel="allocation">占比</button>
-  <button class="tab" type="button" data-panel="holdings">個股</button>
-  <button class="tab" type="button" data-panel="loan">質押</button>
-  <button class="tab" type="button" data-panel="performance">績效</button>
+  <section class="view active" id="view-overview">
+    <div id="hero"></div>
+    <div class="title"><h2>Yahoo行情</h2><span id="quoteFreshness">尚未更新</span></div>
+    <div class="panel no-print" id="quotePanel"></div>
+    <div class="title"><h2>今日獲利</h2><span id="dailyPnlFreshness">—</span></div>
+    <div class="panel" id="dailyPnlPanel"></div>
+    <div class="csv-strip" id="csvStrip"></div><div class="grid2" id="overviewTiles"></div>
+    <div class="title"><h2>資料安全</h2><span>本機模式</span></div>
+    <div class="panel"><div class="item"><div class="item-top"><strong>Google試算表</strong><strong>完全不連線</strong></div><div class="item-bottom"><span>本測試版只寫入手機瀏覽器本機儲存空間。</span></div></div><div class="item"><div class="item-top"><strong>原始CSV</strong><strong id="rawCount">0份</strong></div><div class="item-bottom"><span>同檔案雜湊重複時不會再次保存。</span></div></div></div>
+  </section>
+
+  <section class="view" id="view-holdings">
+    <div class="title"><h2>自由股明細</h2><span id="ownCount"></span></div><div class="panel" id="ownList"></div>
+    <div class="title"><h2>質押股明細</h2><span id="pledgeCount"></span></div><div class="panel" id="pledgeList"></div>
+  </section>
+
+  <section class="view" id="view-import">
+    <div class="notice">先選檔並「驗證」，確認畫面中的檔案類型、新增交易與重複筆數，再按「確認更新本機帳目」。正式Google試算表不會被碰觸。</div>
+    <div class="import-box"><h3>選擇券商CSV</h3><p>可一次選擇對帳單、未實現彙總、已實現損益。至少需要未實現彙總才能更新自由股。</p><label class="file-label">選擇CSV檔<input id="csvFiles" type="file" accept=".csv,text/csv,text/plain" multiple></label><div class="file-list" id="fileList"></div><div class="btns"><button class="btn" onclick="validateSelected()">驗證檔案</button><button class="btn primary" id="applyBtn" onclick="applySelected()" disabled>確認更新本機帳目</button></div></div>
+    <div id="validationResult"></div>
+  </section>
+
+  <section class="view" id="view-performance">
+    <div class="title"><h2>期間績效</h2><span id="periodDataStatus">選擇期間</span></div>
+
+    <div class="period-picker no-print">
+      <div class="quick-periods">
+        <button class="quick-btn active" data-period="ytd">本年度</button>
+        <button class="quick-btn" data-period="30d">近30天</button>
+        <button class="quick-btn" data-period="3m">近3月</button>
+        <button class="quick-btn" data-period="6m">近6月</button>
+        <button class="quick-btn" data-period="custom">自訂</button>
+      </div>
+      <div class="date-row">
+        <label>開始日期<input id="periodStart" type="date"></label>
+        <label>結束日期<input id="periodEnd" type="date"></label>
+      </div>
+      <div class="btns">
+        <button class="btn primary" onclick="renderPeriodPerformance()">套用期間</button>
+        <button class="btn" onclick="createManualSnapshot()">建立目前快照</button>
+      </div>
+    </div>
+
+    <div class="panel" id="periodSummary"></div>
+
+    <div class="title"><h2>期間明細</h2><span>自由股／質押股分開</span></div>
+    <div class="panel" id="periodBreakdown"></div>
+
+    <div class="title"><h2>績效快照</h2><span id="snapshotCount"></span></div>
+    <div class="panel" id="snapshotList"></div>
+
+    <div class="notice">
+      期間績效採「結束快照－開始快照」計算。只有起訖日期都有對應快照時才是精準值；鄰近7天內才可作近似值，距離更遠時直接顯示資料不足。每次確認匯入CSV後，系統會自動新增當日快照。
+    </div>
+  </section>
+
+  <section class="view" id="view-backup">
+    <div class="title"><h2>備份與還原</h2><span>防止手機遺失資料</span></div>
+    <div class="panel"><div class="item"><div class="item-top"><strong>匯出完整備份</strong><button class="btn" onclick="exportBackup()">下載JSON</button></div><div class="item-bottom"><span>包含持股、交易索引、原始CSV文字、稽核紀錄及設定。</span></div></div><div class="item"><div class="item-top"><strong>匯入備份</strong><label class="btn" style="display:flex;align-items:center;padding:0 12px">選擇檔案<input id="restoreFile" type="file" accept=".json,application/json" style="display:none" onchange="restoreBackup(this.files[0])"></label></div><div class="item-bottom"><span>還原前會先自動保存目前狀態。</span></div></div><div class="item"><div class="item-top"><strong>PDF／列印</strong><button class="btn" onclick="window.print()">輸出</button></div><div class="item-bottom"><span>列印時自動展開所有分頁。</span></div></div></div>
+    <div class="title"><h2>本機稽核紀錄</h2><span id="auditCount"></span></div><div class="panel audit" id="auditList"></div>
+  </section>
+
+  <section class="view" id="view-settings">
+    <div class="title"><h2>系統設定</h2><span id="versionLabel"></span></div>
+    <div class="title"><h2>歷史資料移轉</h2><span>正式表唯讀匯入</span></div>
+    <div class="panel" id="historyMigrationPanel"></div>
+    <div class="panel"><div class="item"><div class="item-top"><strong>Yahoo股價</strong><strong id="nativeBridgeStatus">HTML網頁更新測試</strong></div><div class="item-bottom"><span>本頁只放公開程式，不含持股、交易、借款、股息或績效。首次使用請到「備份」頁還原私人JSON；Yahoo行情由同一網站的quotes.json更新。</span></div></div><div class="item"><div class="item-top"><strong>今日獲利口徑</strong><strong>自由／質押分開</strong></div><div class="item-bottom"><span>自由股與質押股各自以（現價－前收）×股數計算，再合計；不使用未實現損益替代。</span></div></div><div class="item"><div class="item-top"><strong>期間績效口徑</strong><strong>歷史現金＋快照</strong></div><div class="item-bottom"><span>已實現、已領股利與質押利息可依日期精準計算；未實現損益只有起訖快照齊全時才納入。</span></div></div><div class="item"><div class="item-top"><strong>資料位置</strong><strong>手機本機</strong></div><div class="item-bottom"><span>清除Chrome網站資料會刪除本機帳目，請定期匯出備份。</span></div></div><div class="item"><div class="item-top"><strong>重設測試版</strong><button class="btn danger" onclick="resetLocal()">清除並重設</button></div><div class="item-bottom"><span>只清除V3C本機資料，不影響Google或其他版本。</span></div></div></div>
+  </section>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-tab="overview"><b>⌂</b>總覽</button>
+  <button class="nav-btn" data-tab="holdings"><b>▤</b>持股</button>
+  <button class="nav-btn" data-tab="import"><b>⇩</b>匯入</button>
+  <button class="nav-btn" data-tab="performance"><b>⌁</b>績效</button>
+  <button class="nav-btn" data-tab="backup"><b>▣</b>備份</button>
+  <button class="nav-btn" data-tab="settings"><b>⚙</b>設定</button>
 </nav>
 
-<!-- 1. 總覽頁籤 -->
-<section class="panel active" id="overview">
-  <article class="card overview-card">
-    <div class="card-head"><h2 class="card-title">總投資</h2><span class="basis">KPMS 口徑</span></div>
-    <div class="hero">
-      <p class="hero-label">今日／前日損益</p>
-      <p class="hero-value positive">+99,409</p>
-    </div>
-    <dl>
-      <div class="metric"><dt>市值</dt><dd class="neutral">2,297,922</dd></div>
-      <div class="metric"><dt>成本</dt><dd class="neutral">2,207,208</dd></div>
-      <div class="metric"><dt>未實現損益</dt><dd class="positive">+90,715</dd></div>
-      <div class="metric"><dt>報酬率</dt><dd class="positive">+4.11%</dd></div>
-    </dl>
-  </article>
+<script>
+const SEED = {"version":"V3C.0.13","mode":"GITHUB_PAGES_PUBLIC_SHELL","asOf":"尚未還原私人備份","csvUpdatedAt":{"statement":"—","unrealized":"—","realized":"—"},"ownHoldings":[],"pledgedHoldings":[],"loan":{"dataDate":"—","collateralValue":0,"creditLimit":0,"principal":0,"available":0,"interest":0,"repayment":0,"maintenanceRate":0,"pledgedShares":0},"performance":{"startDate":"","endDate":"","realized":0,"paidDividends":0,"pendingDividends":0,"pledgeInterest":0,"cashNet":0,"investedPrincipal":0},"dailyPnl":{"date":"","label":"尚未還原私人備份","own":0,"pledged":0,"total":0,"source":"尚未更新","isCurrent":false},"performanceSnapshots":[],"transactions":[],"realizedRows":[],"rawFiles":[],"auditLog":[{"at":"2026-08-06T20:34:00+08:00","action":"公開安全版初始化","detail":"此網頁不含任何私人帳目。請在備份頁還原私人JSON。"}],"backups":[],"performanceEvents":[],"capitalLedger":[],"pledgeHistory":[],"loanRecords":[],"dividendRecords":[],"updateLogs":[],"dailyPnlHistory":[],"migration":{"readOnlyMigration":true,"publicShell":true,"privateDataEmbedded":false}};
+const DB_KEY = "kpms-v3c-pages-v13";
+let db = loadDb();
+let staged = null;
+let activePeriodType = "ytd";
+const fmt = new Intl.NumberFormat("zh-TW",{maximumFractionDigits:2});
+const money = n => fmt.format(Number(n||0));
+const pct = n => `${(Number(n||0)*100).toFixed(2)}%`;
+const cls = n => Number(n)>0?"positive":Number(n)<0?"negative":"neutral";
+const signed = n => `${Number(n)>0?"+":""}${money(n)}`;
 
-  <div class="overview-secondary">
-    <article class="card overview-card">
-      <div class="card-head"><h2 class="card-title">自有股</h2><span class="basis">券商口徑</span></div>
-      <div class="hero">
-        <p class="hero-label">今日／前日損益</p>
-        <p class="hero-value positive">+32,342</p>
+const CLOUD_QUOTES_URL = "./quotes.json";
+const HOLDING_CODE_MAP = {
+  "主動統一升級50":"00403A",
+  "主動凱基台灣":"00407A",
+  "元大台灣50":"0050",
+  "凱基台灣TOP50":"009816",
+  "主動統一台股增長":"00981A",
+  "台積電":"2330",
+  "王品":"2727"
+};
+function holdingCode(name){return HOLDING_CODE_MAP[String(name||"")]||""}
+function taipeiDate(epochSeconds){
+  if(!epochSeconds)return "";
+  const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date(epochSeconds*1000));
+  const o=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+  return `${o.year}-${o.month}-${o.day}`;
+}
+function taipeiDateTime(epochSeconds){
+  if(!epochSeconds)return "—";
+  return new Intl.DateTimeFormat("zh-TW",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date(epochSeconds*1000));
+}
+function currentTaipeiDate(){
+  const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+  const o=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+  return `${o.year}-${o.month}-${o.day}`;
+}
+function quotePnl(items){
+  return (items||[]).reduce((sum,x)=>{
+    const q=db.liveQuotes?.[holdingCode(x.name)];
+    if(!q||!Number.isFinite(Number(q.price))||!Number.isFinite(Number(q.previousClose)))return sum;
+    return sum+(Number(q.price)-Number(q.previousClose))*Number(x.shares||0);
+  },0);
+}
+function jsonp(url, timeoutMs=10000){
+  return new Promise((resolve,reject)=>{
+    const cb="kpms_jsonp_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+    const script=document.createElement("script");
+    const timer=setTimeout(()=>cleanup(new Error("JSONP逾時")),timeoutMs);
+    function cleanup(err,data){
+      clearTimeout(timer);
+      try{delete window[cb]}catch(_){}
+      script.remove();
+      err?reject(err):resolve(data);
+    }
+    window[cb]=(data)=>cleanup(null,data);
+    script.onerror=()=>cleanup(new Error("JSONP載入失敗"));
+    script.src=url+(url.includes("?")?"&":"?")+"callback="+encodeURIComponent(cb);
+    document.head.appendChild(script);
+  });
+}
+async function fetchJsonWithTimeout(url, timeoutMs=12000){
+  const c=new AbortController();
+  const t=setTimeout(()=>c.abort(),timeoutMs);
+  try{
+    const r=await fetch(url,{cache:"no-store",signal:c.signal});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    return await r.json();
+  }finally{clearTimeout(t)}
+}
+function parseYahooChart(symbol,data){
+  const result=data?.chart?.result?.[0];
+  const meta=result?.meta;
+  if(!meta)throw new Error("Yahoo沒有回傳行情");
+  const price=Number(meta.regularMarketPrice);
+  const previousClose=Number(meta.chartPreviousClose ?? meta.previousClose);
+  if(!Number.isFinite(price)||!Number.isFinite(previousClose))throw new Error("缺少現價或前收");
+  return {
+    symbol,
+    price,
+    previousClose,
+    marketTime:Number(meta.regularMarketTime||0),
+    currency:meta.currency||"TWD",
+    exchangeName:meta.exchangeName||""
+  };
+}
+async function fetchOneYahooWeb(symbol){
+  const yahoo1=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
+  const yahoo2=`https://query2.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
+  const attempts=[
+    {name:"Yahoo直接連線",run:()=>fetchJsonWithTimeout(yahoo1)},
+    {name:"Yahoo JSONP",run:()=>jsonp(yahoo1)},
+    {name:"Yahoo備援網域",run:()=>fetchJsonWithTimeout(yahoo2)},
+    {name:"公開中繼A",run:()=>fetchJsonWithTimeout(`https://api.allorigins.win/raw?url=${encodeURIComponent(yahoo1)}`)},
+    {name:"公開中繼B",run:()=>fetchJsonWithTimeout(`https://corsproxy.io/?url=${encodeURIComponent(yahoo1)}`)}
+  ];
+  let lastErr;
+  for(const a of attempts){
+    try{
+      const data=await a.run();
+      return {quote:parseYahooChart(symbol,data),method:a.name};
+    }catch(e){lastErr=e}
+  }
+  throw lastErr||new Error("全部更新方式失敗");
+}
+async function fetchCloudYahooQuotes(){
+  const url=CLOUD_QUOTES_URL+(CLOUD_QUOTES_URL.includes("?")?"&":"?")+"ts="+Date.now();
+  const payload=await fetchJsonWithTimeout(url,15000);
+  if(!payload||typeof payload!=="object")throw new Error("雲端行情檔格式不正確");
+  if(payload.complete!==true){
+    const got=Number(payload.count||0);
+    const expected=Number(payload.expected||7);
+    const errors=Object.keys(payload.errors||{});
+    throw new Error(`雲端行情不完整：${got}/${expected}檔${errors.length?"，缺少："+errors.join("、"):""}`);
+  }
+  return payload;
+}
+async function fetchYahooQuotesWeb(symbols){
+  const payload={quotes:{},source:data.source||"Yahoo股市台灣版（GitHub雲端）",methods:{}};
+  for(const symbol of symbols){
+    try{
+      const out=await fetchOneYahooWeb(symbol);
+      payload.quotes[symbol]=out.quote;
+      payload.methods[symbol]=out.method;
+    }catch(e){
+      payload.quotes[symbol]={error:e.message||"更新失敗"};
+    }
+  }
+  return payload;
+}
+async function refreshYahooQuotes(){
+  const symbols=[...new Set([...(db.ownHoldings||[]),...(db.pledgedHoldings||[])].map(x=>holdingCode(x.name)).filter(Boolean))].map(x=>`${x}.TW`);
+  if(!symbols.length){setStatus("沒有可更新的股票代號","error");return}
+  const btn=document.querySelector("#quoteRefreshBtn");
+  if(btn){btn.disabled=true;btn.textContent="更新中…"}
+  setStatus("正在讀取GitHub雲端Yahoo行情…","warn");
+  try{
+    if(window.KPMSAndroid&&typeof window.KPMSAndroid.fetchYahooQuotes==="function"){
+      window.KPMSAndroid.fetchYahooQuotes(JSON.stringify(symbols));
+      return;
+    }
+    const payload=await fetchCloudYahooQuotes();
+    onYahooQuotesResult(payload);
+  }catch(e){
+    setStatus("雲端Yahoo行情更新失敗","error");
+    alert("雲端Yahoo行情更新失敗："+(e.message||e)+"\\n\\n請先確認GitHub Actions已成功產生quotes.json。今日損益不會變更。");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="更新Yahoo行情"}
+  }
+}
+function onYahooQuotesResult(payload){
+  try{
+    const data=typeof payload==="string"?JSON.parse(payload):payload;
+    if(!data||typeof data!=="object")throw new Error("回傳格式不正確");
+
+    const requiredCodes=[...new Set(
+      [...(db.ownHoldings||[]),...(db.pledgedHoldings||[])]
+        .filter(x=>Number(x.shares||0)!==0)
+        .map(x=>holdingCode(x.name))
+        .filter(Boolean)
+    )];
+
+    const freshQuotes={};
+    const quoteDates={};
+    let latest=0;
+
+    for(const [symbol,q] of Object.entries(data.quotes||{})){
+      if(q?.error||!Number.isFinite(Number(q?.price))||!Number.isFinite(Number(q?.previousClose)))continue;
+      const code=String(symbol).replace(/\.(TW|TWO)$/i,"");
+      const marketTime=Number(q.marketTime||0);
+      const quoteDate=taipeiDate(marketTime);
+      freshQuotes[code]={
+        symbol,
+        price:Number(q.price),
+        previousClose:Number(q.previousClose),
+        marketTime,
+        quoteDate,
+        currency:q.currency||"TWD",
+        source:data.source||"Yahoo股市台灣版（GitHub雲端）"
+      };
+      if(quoteDate)quoteDates[code]=quoteDate;
+      latest=Math.max(latest,marketTime);
+    }
+
+    const missing=requiredCodes.filter(code=>!freshQuotes[code]);
+    if(missing.length){
+      throw new Error(`Yahoo只取得 ${requiredCodes.length-missing.length}/${requiredCodes.length} 檔，缺少：${missing.join("、")}。本次不更新今日損益。`);
+    }
+
+    const dates=[...new Set(requiredCodes.map(code=>quoteDates[code]).filter(Boolean))];
+    if(dates.length!==1){
+      throw new Error(`Yahoo行情日期不一致：${dates.join("、")||"無日期"}。本次不更新今日損益。`);
+    }
+
+    const qDate=dates[0];
+    db.liveQuotes=freshQuotes;
+
+    const calcPnl=(items)=>(items||[]).reduce((sum,x)=>{
+      const code=holdingCode(x.name);
+      const q=freshQuotes[code];
+      return sum+(Number(q.price)-Number(q.previousClose))*Number(x.shares||0);
+    },0);
+
+    const own=calcPnl(db.ownHoldings);
+    const pledged=calcPnl(db.pledgedHoldings);
+    const today=currentTaipeiDate();
+
+    db.dailyPnl={
+      own,
+      pledged,
+      total:own+pledged,
+      label:qDate===today?"Yahoo當日行情":"Yahoo最近交易日",
+      date:qDate,
+      isCurrent:qDate===today,
+      source:data.source||"Yahoo股市台灣版（GitHub雲端）"
+    };
+    db.quoteUpdatedAt=taipeiDateTime(latest);
+    db.quoteSource=data.source||"Yahoo股市台灣版（GitHub雲端）";
+    db.quoteMethods=data.methods||{};
+    db.version="V3C.0.13";
+    db.auditLog=db.auditLog||[];
+    db.auditLog.push({
+      at:nowIso(),
+      action:"更新Yahoo行情",
+      detail:`完整取得 ${requiredCodes.length}/${requiredCodes.length} 檔；行情日 ${qDate}；自由股 ${signed(own)}、質押股 ${signed(pledged)}。`
+    });
+
+    saveDb();
+    render();
+    setStatus(qDate===today?`Yahoo今日行情更新完成・${requiredCodes.length}檔`:`Yahoo最近交易日行情・${qDate}`,"ok");
+  }catch(e){
+    setStatus("Yahoo行情更新失敗・今日損益未變更","error");
+    alert("Yahoo行情更新失敗："+e.message);
+  }finally{
+    const btn=document.querySelector("#quoteRefreshBtn");
+    if(btn){btn.disabled=false;btn.textContent="更新Yahoo行情"}
+  }
+}
+window.onYahooQuotesResult=onYahooQuotesResult;
+
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function loadDb(){
+  try{
+    const saved=localStorage.getItem(DB_KEY);
+    const loaded=saved?JSON.parse(saved):clone(SEED);
+    loaded.version="V3C.0.13";
+    loaded.auditLog=loaded.auditLog||[];
+    loaded.backups=loaded.backups||[];
+    return loaded;
+  }catch(e){
+    const fresh=clone(SEED);
+    fresh.version="V3C.0.13";
+    return fresh;
+  }
+}
+function saveDb(){
+  localStorage.setItem(DB_KEY,JSON.stringify(db));
+}
+function nowIso(){return new Date().toISOString()}
+function setStatus(message,kind="ok"){
+  const el=document.querySelector("#status");
+  el.className="status"+(kind==="warn"?" warn":kind==="error"?" error":"");
+  document.querySelector("#statusText").textContent=message;
+}
+function aggregate(items){
+  const r=items.reduce((a,x)=>({marketValue:a.marketValue+Number(x.marketValue||0),cost:a.cost+Number(x.cost||0)}),{marketValue:0,cost:0});
+  r.unrealized=r.marketValue-r.cost;r.returnRate=r.cost?r.unrealized/r.cost:0;return r;
+}
+function combined(){
+  const own=aggregate(db.ownHoldings||[]),pledged=aggregate(db.pledgedHoldings||[]);
+  const total={marketValue:own.marketValue+pledged.marketValue,cost:own.cost+pledged.cost};
+  total.unrealized=total.marketValue-total.cost;total.returnRate=total.cost?total.unrealized/total.cost:0;
+  const perf=clone(db.performance||{});perf.unrealized=total.unrealized;perf.totalProfit=Number(perf.cashNet||0)+total.unrealized;perf.returnRate=perf.investedPrincipal?perf.totalProfit/perf.investedPrincipal:0;
+  return {own,pledged,total,perf};
+}
+
+function dateOnly(value){
+  if(!value)return "";
+  const m=String(value).match(/(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/);
+  return m?`${m[1]}-${String(m[2]).padStart(2,"0")}-${String(m[3]).padStart(2,"0")}`:"";
+}
+function currentDataDate(){
+  return dateOnly(db.asOf)||new Date().toISOString().slice(0,10);
+}
+function snapshotFromCurrent(label="自動快照"){
+  const s=combined();
+  const realized=Number(db.performance?.realized||0);
+  const paid=Number(db.performance?.paidDividends||0);
+  const interest=Number(db.performance?.pledgeInterest||0);
+  const realizedNet=realized+paid-interest;
+  return {
+    date:currentDataDate(),label,
+    realizedNet,
+    ownUnrealized:Number(s.own.unrealized||0),
+    pledgedUnrealized:Number(s.pledged.unrealized||0),
+    totalProfit:realizedNet+Number(s.total.unrealized||0),
+    investedPrincipal:Number(db.performance?.investedPrincipal||0)
+  };
+}
+function upsertPerformanceSnapshot(label="CSV更新快照"){
+  db.performanceSnapshots=db.performanceSnapshots||[];
+  const snap=snapshotFromCurrent(label);
+  const idx=db.performanceSnapshots.findIndex(x=>x.date===snap.date);
+  if(idx>=0) db.performanceSnapshots[idx]=snap;
+  else db.performanceSnapshots.push(snap);
+  db.performanceSnapshots.sort((a,b)=>a.date.localeCompare(b.date));
+}
+function latestSnapshotOnOrBefore(date){
+  const arr=(db.performanceSnapshots||[]).filter(x=>x.date<=date).sort((a,b)=>a.date.localeCompare(b.date));
+  return arr[arr.length-1]||null;
+}
+function earliestSnapshotOnOrAfter(date){
+  return (db.performanceSnapshots||[]).filter(x=>x.date>=date).sort((a,b)=>a.date.localeCompare(b.date))[0]||null;
+}
+function daysBetween(a,b){
+  return Math.round(Math.abs(new Date(`${a}T12:00:00`)-new Date(`${b}T12:00:00`))/86400000);
+}
+function chooseStartSnapshot(date){
+  const exact=(db.performanceSnapshots||[]).find(x=>x.date===date);
+  if(exact)return {snapshot:exact,exact:true};
+  const before=latestSnapshotOnOrBefore(date);
+  const after=earliestSnapshotOnOrAfter(date);
+  const candidates=[before,after].filter(Boolean).sort((a,b)=>daysBetween(a.date,date)-daysBetween(b.date,date));
+  const selected=candidates[0]||null;
+  if(!selected||daysBetween(selected.date,date)>7)return {snapshot:null,exact:false};
+  return {snapshot:selected,exact:false};
+}
+function chooseEndSnapshot(date){
+  const exact=(db.performanceSnapshots||[]).find(x=>x.date===date);
+  if(exact)return {snapshot:exact,exact:true};
+  const selected=latestSnapshotOnOrBefore(date);
+  if(!selected||daysBetween(selected.date,date)>7)return {snapshot:null,exact:false};
+  return {snapshot:selected,exact:false};
+}
+function addMonths(dateStr,months){
+  const d=new Date(`${dateStr}T12:00:00`);
+  d.setMonth(d.getMonth()+months);
+  return d.toISOString().slice(0,10);
+}
+function addDays(dateStr,days){
+  const d=new Date(`${dateStr}T12:00:00`);
+  d.setDate(d.getDate()+days);
+  return d.toISOString().slice(0,10);
+}
+function initPeriodPicker(){
+  const end=currentDataDate();
+  const year=end.slice(0,4);
+  document.querySelector("#periodStart").value=`${year}-01-01`;
+  document.querySelector("#periodEnd").value=end;
+}
+function setQuickPeriod(type){
+  activePeriodType=type;
+  const end=currentDataDate();
+  let start=`${end.slice(0,4)}-01-01`;
+  if(type==="30d")start=addDays(end,-29);
+  if(type==="3m")start=addMonths(end,-3);
+  if(type==="6m")start=addMonths(end,-6);
+  if(type==="custom")return;
+  document.querySelector("#periodStart").value=start;
+  document.querySelector("#periodEnd").value=end;
+  renderPeriodPerformance();
+}
+function sumPeriodEvents(startDate,endDate){
+  const events=(db.performanceEvents||[]).filter(x=>x.date>=startDate&&x.date<=endDate);
+  const sumType=(...types)=>events.filter(x=>types.includes(x.type)).reduce((a,x)=>a+Number(x.amount||0),0);
+  const realized=sumType("已實現損益","歷史已實現損益");
+  const paid=sumType("已入帳股息");
+  const pending=sumType("待入帳股息");
+  const interest=sumType("質押利息");
+  return {events,realized,paid,pending,interest,cashNet:realized+paid-interest};
+}
+function investedCapitalAt(date){
+  return (db.capitalLedger||[])
+    .filter(x=>x.include&&x.valueDate&&x.valueDate<=date)
+    .reduce((a,x)=>a+Number(x.netChange||0),0);
+}
+function renderPeriodPerformance(){
+  const startDate=document.querySelector("#periodStart")?.value||`${currentDataDate().slice(0,4)}-01-01`;
+  const endDate=document.querySelector("#periodEnd")?.value||currentDataDate();
+  if(startDate>endDate){
+    setStatus("期間開始日不可晚於結束日","error");
+    return;
+  }
+  const cash=sumPeriodEvents(startDate,endDate);
+  const principal=investedCapitalAt(endDate);
+  const cashRate=principal?cash.cashNet/principal:0;
+  const startChoice=chooseStartSnapshot(startDate);
+  const endChoice=chooseEndSnapshot(endDate);
+  const startSnap=startChoice.snapshot;
+  const endSnap=endChoice.snapshot;
+  const hasSnapshots=!!(startSnap&&endSnap&&startSnap.date<=endSnap.date);
+  const exact=hasSnapshots&&startChoice.exact&&endChoice.exact;
+  const summary=document.querySelector("#periodSummary");
+  const breakdown=document.querySelector("#periodBreakdown");
+
+  let ownDelta=null,pledgedDelta=null,unrealizedDelta=null,total=null,totalRate=null;
+  if(hasSnapshots){
+    ownDelta=Number(endSnap.ownUnrealized||0)-Number(startSnap.ownUnrealized||0);
+    pledgedDelta=Number(endSnap.pledgedUnrealized||0)-Number(startSnap.pledgedUnrealized||0);
+    unrealizedDelta=ownDelta+pledgedDelta;
+    total=cash.cashNet+unrealizedDelta;
+    totalRate=principal?total/principal:0;
+  }
+
+  document.querySelector("#periodDataStatus").textContent=hasSnapshots
+    ?(exact?"現金＋未實現精準":"現金精準・未實現近似")
+    :"現金績效精準";
+
+  summary.innerHTML=`
+    <div class="period-hero">
+      <span>${hasSnapshots?"期間總績效":"期間現金績效"}</span>
+      <strong class="${cls(hasSnapshots?total:cash.cashNet)}">${signed(hasSnapshots?total:cash.cashNet)}</strong>
+      <div class="period-meta">
+        <span>${startDate} ～ ${endDate}</span>
+        <span class="snapshot-tag ${hasSnapshots&&exact?"":"approx"}">${hasSnapshots?(exact?"完整":"部分近似"):"未含未實現"}</span>
       </div>
-      <dl>
-        <div class="metric"><dt>預估現值</dt><dd class="neutral">563,982</dd></div>
-        <div class="metric"><dt>券商成本</dt><dd class="neutral">557,392</dd></div>
-        <div class="metric"><dt>未實現損益</dt><dd class="positive">+6,590</dd></div>
-        <div class="metric"><dt>報酬率</dt><dd class="positive">+1.18%</dd></div>
-      </dl>
-    </article>
+    </div>
+    <div class="annual-grid">
+      <div class="annual-cell"><span>${hasSnapshots?"期間參考報酬率":"現金績效參考率"}</span><strong class="${cls(hasSnapshots?totalRate:cashRate)}">${pct(hasSnapshots?totalRate:cashRate)}</strong></div>
+      <div class="annual-cell"><span>期末投入本金</span><strong>${money(principal)}</strong></div>
+      <div class="annual-cell"><span>歷史事件筆數</span><strong>${cash.events.length}筆</strong></div>
+      <div class="annual-cell"><span>未實現快照</span><strong>${hasSnapshots?`${startSnap.date} → ${endSnap.date}`:"資料不足"}</strong></div>
+    </div>
+    <div class="annual-note">${hasSnapshots
+      ?"總績效＝期間現金績效＋自由股未實現變化＋質押股未實現變化。"
+      :"此期間已實現、股息與質押利息可精準計算；因缺少起訖持股市值快照，暫不加入未實現損益，也不猜測總績效。"}參考率以期末投入本金為分母，期間內有增減資金時僅供參考。</div>`;
 
-    <article class="card overview-card">
-      <div class="card-head"><h2 class="card-title">質押股</h2><span class="basis">KPMS 口徑</span></div>
-      <div class="hero">
-        <p class="hero-label">今日／前日損益</p>
-        <p class="hero-value positive">+74,990</p>
+  breakdown.innerHTML=`
+    <div class="annual-grid">
+      <div class="annual-cell"><span>已實現損益</span><strong class="${cls(cash.realized)}">${signed(cash.realized)}</strong></div>
+      <div class="annual-cell"><span>已領股利</span><strong class="${cls(cash.paid)}">${signed(cash.paid)}</strong></div>
+      <div class="annual-cell"><span>質押利息</span><strong class="${cls(-cash.interest)}">${signed(-cash.interest)}</strong></div>
+      <div class="annual-cell"><span>現金績效</span><strong class="${cls(cash.cashNet)}">${signed(cash.cashNet)}</strong></div>
+      <div class="annual-cell"><span>自由股未實現變化</span><strong class="${ownDelta===null?"neutral":cls(ownDelta)}">${ownDelta===null?"無快照":signed(ownDelta)}</strong></div>
+      <div class="annual-cell"><span>質押股未實現變化</span><strong class="${pledgedDelta===null?"neutral":cls(pledgedDelta)}">${pledgedDelta===null?"無快照":signed(pledgedDelta)}</strong></div>
+      <div class="annual-cell"><span>全部未實現變化</span><strong class="${unrealizedDelta===null?"neutral":cls(unrealizedDelta)}">${unrealizedDelta===null?"無快照":signed(unrealizedDelta)}</strong></div>
+      <div class="annual-cell"><span>待領股利（未計入）</span><strong class="${cls(cash.pending)}">${signed(cash.pending)}</strong></div>
+    </div>
+    <div class="annual-note">自由股與質押股分開計算。現金績效資料來自正式表的期間績效資料；待領股利不列入正式績效。</div>`;
+  renderSnapshotList();
+}
+function createManualSnapshot(){
+  upsertPerformanceSnapshot("手動建立快照");
+  db.auditLog=db.auditLog||[];
+  db.auditLog.push({at:nowIso(),action:"建立績效快照",detail:`已建立或更新 ${currentDataDate()} 績效快照。`});
+  saveDb();render();setStatus("績效快照已建立 ✓","ok");
+}
+function renderSnapshotList(){
+  const arr=(db.performanceSnapshots||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const count=document.querySelector("#snapshotCount");
+  const list=document.querySelector("#snapshotList");
+  if(count)count.textContent=`${arr.length}筆`;
+  if(!list)return;
+  list.innerHTML=arr.length?arr.map(x=>`
+    <div class="item">
+      <div class="item-top"><strong>${escapeHtml(x.label||"績效快照")}</strong><strong class="${cls(x.totalProfit)}">${signed(x.totalProfit)}</strong></div>
+      <div class="item-bottom"><span>${x.date}</span><span>自由 ${signed(x.ownUnrealized)}／質押 ${signed(x.pledgedUnrealized)}</span></div>
+    </div>`).join(""):`<div class="item"><strong>尚無績效快照</strong></div>`;
+}
+
+function render(){
+  const s=combined();
+  document.querySelector("#asOf").textContent=db.asOf||"—";
+  document.querySelector("#versionLabel").textContent=db.version||"V3C";
+  const nativeReady=!!(window.KPMSAndroid&&typeof window.KPMSAndroid.fetchYahooQuotes==="function");
+  const bridgeStatus=document.querySelector("#nativeBridgeStatus");
+  if(bridgeStatus)bridgeStatus.textContent=nativeReady?"APK原生橋接可用":"GitHub雲端行情模式";
+  const quoteCount=Object.keys(db.liveQuotes||{}).length;
+  const quoteFreshness=document.querySelector("#quoteFreshness");
+  if(quoteFreshness)quoteFreshness.textContent=db.quoteUpdatedAt||"尚未更新";
+  const quotePanel=document.querySelector("#quotePanel");
+  if(quotePanel)quotePanel.innerHTML=`
+    <div class="item">
+      <div class="item-top"><strong>Yahoo股市台灣版</strong><button class="btn primary" id="quoteRefreshBtn" onclick="refreshYahooQuotes()">更新Yahoo行情</button></div>
+      <div class="item-bottom"><span>${nativeReady?"APK原生網路已連接":"HTML將讀取GitHub雲端產生的完整Yahoo行情檔"}</span><strong>${quoteCount}檔</strong></div>
+    </div>
+    <div class="item"><div class="item-bottom"><span>Yahoo行情只用於現價、前收與今日獲利；不會覆蓋券商CSV的成本、市值及未實現損益。GitHub只處理七個公開股票代號；私人帳目保存在本機瀏覽器，不寫入公開儲存庫。</span></div></div>`;
+  document.querySelector("#hero").innerHTML=`<div class="hero"><div class="hero-top"><div><small>全部持股未實現損益</small><div class="hero-value">${signed(s.total.unrealized)}</div></div><span class="hero-rate">${pct(s.total.returnRate)}</span></div><div class="hero-stats"><div class="hero-stat"><span>總市值</span><strong>${money(s.total.marketValue)}</strong></div><div class="hero-stat"><span>總成本</span><strong>${money(s.total.cost)}</strong></div></div></div>`;
+  const dp=db.dailyPnl||{own:0,pledged:0,total:0,label:"尚無資料",date:"—",isCurrent:false};
+  const today=currentTaipeiDate();
+  const isToday=dp.date===today && dp.isCurrent===true;
+  const computedDailyTotal=Number(dp.own||0)+Number(dp.pledged||0);
+  const dailyTotal=Math.abs(Number(dp.total||0)-computedDailyTotal)<0.01?Number(dp.total||0):computedDailyTotal;
+
+  if(isToday){
+    document.querySelector("#dailyPnlFreshness").textContent=`Yahoo當日行情・${dp.date}`;
+    document.querySelector("#dailyPnlPanel").innerHTML=`
+      <div class="item">
+        <div class="item-top"><strong>合計今日獲利</strong><strong class="${cls(dailyTotal)}">${signed(dailyTotal)}</strong></div>
+        <div class="item-bottom"><span>自由股＋質押股，兩者獨立計算後相加</span><span>當日行情</span></div>
       </div>
-      <dl>
-        <div class="metric"><dt>市值</dt><dd class="neutral">1,733,940</dd></div>
-        <div class="metric"><dt>成本</dt><dd class="neutral">1,649,816</dd></div>
-        <div class="metric"><dt>未實現損益</dt><dd class="positive">+84,125</dd></div>
-        <div class="metric"><dt>報酬率</dt><dd class="positive">+5.10%</dd></div>
-      </dl>
-    </article>
-  </div>
-  <p class="notice">自有股採券商預估淨額；總投資與質押股採 KPMS 內部成本口徑，三區用途不同，不直接相加對帳。</p>
-</section>
-
-<!-- 2. 占比頁籤 -->
-<section class="panel" id="allocation">
-  <div class="section-title"><h2>各股持股占比</h2><span>市值合計 100%</span></div>
-  <div class="card">
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>元大台灣50</strong><strong class="neutral">35.46%</strong></div>
-      <div class="allocation-meta"><span>市值 814,709</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:35.5%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>凱基台灣TOP50</strong><strong class="neutral">24.22%</strong></div>
-      <div class="allocation-meta"><span>市值 556,644</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:24.2%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>主動統一台股增長</strong><strong class="neutral">20.46%</strong></div>
-      <div class="allocation-meta"><span>市值 470,160</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:20.5%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>主動統一升級50</strong><strong class="neutral">10.87%</strong></div>
-      <div class="allocation-meta"><span>市值 249,714</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:10.9%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>台積電</strong><strong class="neutral">6.31%</strong></div>
-      <div class="allocation-meta"><span>市值 145,020</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:6.3%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>主動凱基台灣</strong><strong class="neutral">2.58%</strong></div>
-      <div class="allocation-meta"><span>市值 59,338</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:2.6%"></span></div>
-    </article>
-    <article class="allocation-row">
-      <div class="allocation-main"><strong>王品</strong><strong class="neutral">0.10%</strong></div>
-      <div class="allocation-meta"><span>市值 2,337</span><span>占全部持股</span></div>
-      <div class="allocation-meter"><span style="width:0.1%"></span></div>
-    </article>
-  </div>
-  <p class="notice">持股占比＝各股市值 ÷ 全部持股總市值。最大持股為 元大台灣50 35.46%。</p>
-</section>
-
-<!-- 3. 個股頁籤 -->
-<section class="panel" id="holdings">
-  <div class="section-title"><h2>自有股損益率</h2><span>7 檔</span></div>
-  <div class="holding-summary">
-    <div class="holding-summary-item"><span>獲利／虧損</span><strong><span class="positive" style="display:inline">3 檔</span>／<span class="negative" style="display:inline">4 檔</span></strong></div>
-    <div class="holding-summary-item"><span>最佳表現</span><strong class="positive">元大台灣50 +5.65%</strong></div>
-    <div class="holding-summary-item"><span>最低表現</span><strong class="negative">王品 -5.61%</strong></div>
-    <div class="holding-summary-item"><span>顏色</span><strong><span class="positive" style="display:inline">紅漲</span>／<span class="negative" style="display:inline">綠跌</span></strong></div>
-  </div>
-  <div class="card">
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>主動統一升級50</h3><p>3,000 股・均價 9.60</p></div><div class="holding-price"><strong>9.25</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 27,714</span><span>未實現 <strong class="negative">-1,085</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="negative">-3.77%</strong></div>
-      <div class="return-meter"><span class="negative" style="width:18.9%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>主動凱基台灣</h3><p>2,000 股・均價 8.89</p></div><div class="holding-price"><strong>8.48</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 16,938</span><span>未實現 <strong class="negative">-848</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="negative">-4.77%</strong></div>
-      <div class="return-meter"><span class="negative" style="width:23.9%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>元大台灣50</h3><p>1,924 股・均價 97.18</p></div><div class="holding-price"><strong>102.85</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 197,609</span><span>未實現 <strong class="positive">+10,561</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="positive">+5.65%</strong></div>
-      <div class="return-meter"><span class="positive" style="width:28.3%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>凱基台灣TOP50</h3><p>3,000 股・均價 14.25</p></div><div class="holding-price"><strong>14.65</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 43,894</span><span>未實現 <strong class="positive">+1,137</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="positive">+2.66%</strong></div>
-      <div class="return-meter"><span class="positive" style="width:13.3%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>主動統一台股增長</h3><p>5,000 股・均價 27.33</p></div><div class="holding-price"><strong>26.13</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 130,470</span><span>未實現 <strong class="negative">-6,233</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="negative">-4.56%</strong></div>
-      <div class="return-meter"><span class="negative" style="width:22.8%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>台積電</h3><p>60 股・均價 2,362.92</p></div><div class="holding-price"><strong>2,425.00</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 145,020</span><span>未實現 <strong class="positive">+3,197</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="positive">+2.25%</strong></div>
-      <div class="return-meter"><span class="positive" style="width:11.3%"></span></div>
-    </article>
-    <article class="holding-row">
-      <div class="holding-main"><div><h3>王品</h3><p>10 股・均價 247.50</p></div><div class="holding-price"><strong>234.50</strong><span>市價</span></div></div>
-      <div class="holding-result"><span>現值 2,337</span><span>未實現 <strong class="negative">-139</strong></span></div>
-      <div class="holding-return"><span>個股損益率</span><strong class="negative">-5.61%</strong></div>
-      <div class="return-meter"><span class="negative" style="width:28.1%"></span></div>
-    </article>
-  </div>
-  <p class="notice">損益率＝未實現損益 ÷ 成本。色條以 20% 為滿格；紅色代表正數，深綠色代表負數。</p>
-</section>
-
-<!-- 4. 質押頁籤 -->
-<section class="panel" id="loan">
-  <div class="section-title"><h2>質押股各股獲利率</h2><span>5 檔</span></div>
-  <div class="card">
-    <article class="pledged-stock-row">
-      <div class="pledged-stock-main"><div><strong>元大台灣50</strong><span>6,000 股</span></div><strong class="positive">+21.02%</strong></div>
-      <div class="pledged-stock-meta"><span>質押市值 617,100</span><span>損益 <strong class="positive">+107,190</strong></span></div>
-      <div class="return-meter"><span class="positive" style="width:100.0%"></span></div>
-    </article>
-    <article class="pledged-stock-row">
-      <div class="pledged-stock-main"><div><strong>主動凱基台灣</strong><span>5,000 股</span></div><strong class="negative">-12.39%</strong></div>
-      <div class="pledged-stock-meta"><span>質押市值 42,400</span><span>損益 <strong class="negative">-5,998</strong></span></div>
-      <div class="return-meter"><span class="negative" style="width:62.0%"></span></div>
-    </article>
-    <article class="pledged-stock-row">
-      <div class="pledged-stock-main"><div><strong>主動統一升級50</strong><span>24,000 股</span></div><strong class="negative">-11.66%</strong></div>
-      <div class="pledged-stock-meta"><span>質押市值 222,000</span><span>損益 <strong class="negative">-29,295</strong></span></div>
-      <div class="return-meter"><span class="negative" style="width:58.3%"></span></div>
-    </article>
-    <article class="pledged-stock-row">
-      <div class="pledged-stock-main"><div><strong>主動統一台股增長</strong><span>13,000 股</span></div><strong class="negative">-12.90%</strong></div>
-      <div class="pledged-stock-meta"><span>質押市值 339,690</span><span>損益 <strong class="negative">-50,299</strong></span></div>
-      <div class="return-meter"><span class="negative" style="width:64.5%"></span></div>
-    </article>
-    <article class="pledged-stock-row">
-      <div class="pledged-stock-main"><div><strong>凱基台灣TOP50</strong><span>35,000 股</span></div><strong class="positive">+13.89%</strong></div>
-      <div class="pledged-stock-meta"><span>質押市值 512,750</span><span>損益 <strong class="positive">+62,527</strong></span></div>
-      <div class="return-meter"><span class="positive" style="width:69.5%"></span></div>
-    </article>
-  </div>
-  <p class="notice">質押股獲利率＝（質押股市值－質押股成本）÷ 質押股成本。紅色為獲利，深綠色為虧損。</p>
-
-  <div class="section-title"><h2>質押借款摘要</h2><span>資料 2026/07/31</span></div>
-  <div class="summary-grid">
-    <div class="summary-tile"><span>已借款本金</span><strong>643,968</strong><small>6 筆未清償</small></div>
-    <div class="summary-tile"><span>尚可借款</span><strong>411,546</strong><small>核定上限 1,055,514</small></div>
-    <div class="summary-tile"><span>累計利息</span><strong>471</strong><small>應還 644,439</small></div>
-    <div class="summary-tile"><span>維持率</span><strong>317.43%</strong><small>質押 83,000 股</small></div>
-  </div>
-  <div class="section-title"><h2>借款明細</h2><span>本金／利息</span></div>
-  <div class="card">
-    <article class="loan-row"><div class="loan-number">1</div><div class="loan-dates"><strong>2026/07/07</strong><span>到期 2027/01/06</span></div><div class="loan-money"><strong>13,968</strong><span>利息 42</span></div></article>
-    <article class="loan-row"><div class="loan-number">2</div><div class="loan-dates"><strong>2026/07/07</strong><span>到期 2027/01/06</span></div><div class="loan-money"><strong>10,000</strong><span>利息 37</span></div></article>
-    <article class="loan-row"><div class="loan-number">3</div><div class="loan-dates"><strong>2026/07/13</strong><span>到期 2027/01/12</span></div><div class="loan-money"><strong>100,000</strong><span>利息 265</span></div></article>
-    <article class="loan-row"><div class="loan-number">4</div><div class="loan-dates"><strong>2026/07/22</strong><span>到期 2027/01/21</span></div><div class="loan-money"><strong>100,000</strong><span>利息 106</span></div></article>
-    <article class="loan-row"><div class="loan-number">5</div><div class="loan-dates"><strong>2026/07/27</strong><span>到期 2027/01/26</span></div><div class="loan-money"><strong>120,000</strong><span>利息 21</span></div></article>
-    <article class="loan-row"><div class="loan-number">6</div><div class="loan-dates"><strong>2026/07/29</strong><span>到期 2027/01/28</span></div><div class="loan-money"><strong>300,000</strong><span>利息 0</span></div></article>
-  </div>
-  <p class="notice">質押借款採統一質押池管理，不分配到個別股票，也不寫入股票成本。</p>
-</section>
-
-<!-- 5. 績效頁籤 -->
-<section class="panel" id="performance">
-  <div class="section-title"><h2>期間績效</h2><span id="performanceStatus">OK</span></div>
-  <div class="period-controls">
-    <div class="preset-row">
-      <button class="preset-button active" type="button">本年度</button>
-      <button class="preset-button" type="button">上半年</button>
+      <div class="item">
+        <div class="item-top"><strong>自由股今日獲利</strong><strong class="${cls(dp.own)}">${signed(dp.own)}</strong></div>
+        <div class="item-bottom"><span>Σ（Yahoo現價－Yahoo前收）× 自由股股數</span></div>
+      </div>
+      <div class="item">
+        <div class="item-top"><strong>質押股今日獲利</strong><strong class="${cls(dp.pledged)}">${signed(dp.pledged)}</strong></div>
+        <div class="item-bottom"><span>Σ（Yahoo現價－Yahoo前收）× 質押股股數</span></div>
+      </div>
+      <div class="item">
+        <div class="item-bottom"><span>資料來源：${escapeHtml(dp.source||"未提供")}。只有全部持股行情完整且日期一致時才更新。</span></div>
+      </div>`;
+  }else{
+    document.querySelector("#dailyPnlFreshness").textContent=`尚未取得 ${today} 行情`;
+    document.querySelector("#dailyPnlPanel").innerHTML=`
+      <div class="notice">
+        <strong>${today} 今日獲利尚未更新</strong><br>
+        下方舊資料不再當成今日數字。請按上方「更新Yahoo行情」。
+      </div>
+      <div class="item">
+        <div class="item-top"><strong>今日獲利</strong><strong>—</strong></div>
+        <div class="item-bottom"><span>等待完整取得全部持股的Yahoo現價與前收</span><span>未更新</span></div>
+      </div>
+      <div class="item">
+        <div class="item-top"><strong>前次資料</strong><strong class="${cls(dailyTotal)}">${signed(dailyTotal)}</strong></div>
+        <div class="item-bottom"><span>${escapeHtml(dp.label||"舊資料")}・${escapeHtml(dp.date||"—")}</span><span>僅供參考</span></div>
+      </div>`;
+  }
+  document.querySelector("#csvStrip").innerHTML=[["對帳單",db.csvUpdatedAt?.statement],["未實現",db.csvUpdatedAt?.unrealized],["已實現",db.csvUpdatedAt?.realized]].map(([a,b])=>`<div class="csv"><span>${a}</span><strong>${b||"尚未匯入"}</strong></div>`).join("");
+  document.querySelector("#overviewTiles").innerHTML=`<div class="mini"><span>自由股損益</span><strong class="${cls(s.own.unrealized)}">${signed(s.own.unrealized)}</strong><small>${pct(s.own.returnRate)}</small></div><div class="mini"><span>質押股損益</span><strong class="${cls(s.pledged.unrealized)}">${signed(s.pledged.unrealized)}</strong><small>${pct(s.pledged.returnRate)}</small></div><div class="mini"><span>期間總獲利</span><strong class="${cls(s.perf.totalProfit)}">${signed(s.perf.totalProfit)}</strong><small>${pct(s.perf.returnRate)}</small></div><div class="mini"><span>尚可借款</span><strong>${money(db.loan?.available)}</strong><small>維持率 ${pct(db.loan?.maintenanceRate)}</small></div>`;
+  document.querySelector("#rawCount").textContent=`${db.rawFiles?.length||0}份`;
+  document.querySelector("#ownCount").textContent=`${db.ownHoldings?.length||0}檔`;
+  document.querySelector("#pledgeCount").textContent=`${db.pledgedHoldings?.length||0}檔`;
+  document.querySelector("#ownList").innerHTML=(db.ownHoldings||[]).map(holdingItem).join("");
+  document.querySelector("#pledgeList").innerHTML=(db.pledgedHoldings||[]).map(holdingItem).join("");
+  const mig=db.migration||{};
+  const hp=document.querySelector("#historyMigrationPanel");
+  if(hp)hp.innerHTML=`
+    <div class="item"><div class="item-top"><strong>移轉狀態</strong><strong class="positive">完成</strong></div><div class="item-bottom"><span>${escapeHtml(mig.sourceTitle||"正式帳目")}・${mig.sourceSheetCount||0}張工作表</span><span>${escapeHtml(mig.importedAt||"—")}</span></div></div>
+    <div class="annual-grid">
+      <div class="annual-cell"><span>原始交易</span><strong>${mig.rawTransactionCount||0}筆</strong></div>
+      <div class="annual-cell"><span>績效事件</span><strong>${mig.performanceEventCount||0}筆</strong></div>
+      <div class="annual-cell"><span>資金流水</span><strong>${mig.capitalLedgerCount||0}筆</strong></div>
+      <div class="annual-cell"><span>列入本金</span><strong>${mig.includedCapitalCount||0}筆</strong></div>
+      <div class="annual-cell"><span>質押紀錄</span><strong>${mig.pledgeHistoryCount||0}筆</strong></div>
+      <div class="annual-cell"><span>股息紀錄</span><strong>${mig.dividendRecordCount||0}筆</strong></div>
     </div>
-    <div class="date-inputs">
-      <label class="date-field">開始日期<input type="date" value="2026-01-01"></label>
-      <label class="date-field">結束日期<input type="date" value="2026-07-31"></label>
-    </div>
-    <button class="apply-period" type="button">套用日期</button>
-    <p class="period-message">最新截止日包含目前未實現損益。</p>
-  </div>
-  <div class="date-range">2026/01/01 ～ 2026/07/31</div>
-  <article class="card">
-    <dl>
-      <div class="metric"><dt>已實現損益</dt><dd class="negative">-82,141</dd></div>
-      <div class="metric"><dt>已入帳股息</dt><dd class="positive">19,405</dd></div>
-      <div class="metric"><dt>質押利息</dt><dd class="negative">-471</dd></div>
-      <div class="metric"><dt>現金淨損益</dt><dd class="negative">-63,207</dd></div>
-      <div class="metric"><dt>期末未實現</dt><dd class="positive">+90,715</dd></div>
-    </dl>
-  </article>
-  <article class="card">
-    <div class="card-head"><h2 class="card-title">期間總獲利</h2><span class="basis">完整口徑</span></div>
-    <div class="hero">
-      <p class="hero-label">總獲利</p>
-      <p class="hero-value positive">+27,508</p>
-    </div>
-    <dl>
-      <div class="metric"><dt>投入本金</dt><dd class="positive">1,914,509</dd></div>
-      <div class="metric"><dt>期間報酬率</dt><dd class="positive">+1.44%</dd></div>
-      <div class="metric"><dt>待入帳股息（參考）</dt><dd class="neutral">0.00</dd></div>
-    </dl>
-  </article>
-</section>
-
-<div class="actions">
-  <button class="action primary" type="button" onclick="location.reload()">重新載入</button>
-  <a class="action" href="https://docs.google.com/spreadsheets/d/18xpavzjr4JK08YINfnBEGGD38K1XCkQhe_STC9FRCKQ/edit" target="_blank" rel="noreferrer">開啟完整 PMS</a>
-  <a class="action print" href="javascript:window.print()">大字版 PDF／列印</a>
-</div>
-<div class="verified"><span class="dot"></span>來源驗證 OK</div>
-<footer>K股票PMS 手機看板 V2.0｜私人唯讀版</footer>
+    <div class="annual-note">交易期間 ${mig.rawTransactionRange?.[0]||"—"} ～ ${mig.rawTransactionRange?.[1]||"—"}；績效事件 ${mig.performanceEventRange?.[0]||"—"} ～ ${mig.performanceEventRange?.[1]||"—"}。資料已嵌入本機檔案，開啟後不需要連Google。</div>`;
+  document.querySelector("#auditCount").textContent=`${db.auditLog?.length||0}筆`;
+  if(document.querySelector("#periodStart")&&!document.querySelector("#periodStart").value)initPeriodPicker();
+  if(document.querySelector("#periodSummary"))renderPeriodPerformance();
+  document.querySelector("#auditList").innerHTML=(db.auditLog||[]).slice().reverse().map(x=>`<div class="item"><strong>${escapeHtml(x.action)}</strong><time>${escapeHtml(x.at)}</time><div class="item-bottom"><span>${escapeHtml(x.detail||"")}</span></div></div>`).join("");
+}
+function holdingItem(x){
+  const code=holdingCode(x.name),q=db.liveQuotes?.[code];
+  const quoteLine=q?`券商價 ${money(x.currentPrice||0)}／Yahoo ${money(q.price)}／前收 ${money(q.previousClose)}`:`券商價 ${money(x.currentPrice||0)}／Yahoo尚未更新`;
+  return `<div class="item"><div class="item-top"><strong>${escapeHtml(x.name)}${code?`（${code}）`:""}・${money(x.shares)}股</strong><strong class="${cls(x.returnRate)}">${pct(x.returnRate)}</strong></div><div class="item-bottom"><span>券商成本 ${money(x.cost)}／券商市值 ${money(x.marketValue)}</span><strong class="${cls(x.unrealized)}">${signed(x.unrealized)}</strong></div><div class="item-bottom"><span>均價 ${money(x.averagePrice||0)}／${quoteLine}</span></div></div>`;
+}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+document.querySelectorAll(".nav-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".nav-btn").forEach(x=>x.classList.toggle("active",x===btn));
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===`view-${btn.dataset.tab}`));
+  scrollTo({top:0,behavior:"smooth"});
+}));
+document.querySelectorAll(".quick-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".quick-btn").forEach(x=>x.classList.toggle("active",x===btn));
+  setQuickPeriod(btn.dataset.period);
+}));
+["periodStart","periodEnd"].forEach(id=>document.querySelector(`#${id}`)?.addEventListener("change",()=>{
+  activePeriodType="custom";
+  document.querySelectorAll(".quick-btn").forEach(x=>x.classList.toggle("active",x.dataset.period==="custom"));
+}));
+document.querySelector("#csvFiles").addEventListener("change",showSelected);
+function showSelected(){
+  staged=null;document.querySelector("#applyBtn").disabled=true;document.querySelector("#validationResult").innerHTML="";
+  const files=[...document.querySelector("#csvFiles").files];
+  document.querySelector("#fileList").innerHTML=files.map(f=>`<div class="file-card"><strong>${escapeHtml(f.name)}</strong><span>${money(f.size)} bytes</span></div>`).join("");
+}
+function parseCsv(text){
+  text=text.replace(/^\uFEFF/,"");
+  const rows=[];let row=[],field="",quote=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i],n=text[i+1];
+    if(quote){
+      if(c=='"'&&n=='"'){field+='"';i++}
+      else if(c=='"'){quote=false}else field+=c;
+    }else{
+      if(c=='"')quote=true;
+      else if(c==","){row.push(field);field=""}
+      else if(c=="\n"){row.push(field);rows.push(row);row=[];field=""}
+      else if(c!="\r")field+=c;
+    }
+  }
+  if(field.length||row.length){row.push(field);rows.push(row)}
+  return rows.filter(r=>r.some(v=>String(v).trim()!==""));
+}
+function num(v){const n=Number(String(v??"").replace(/,/g,"").replace(/%/g,"").trim());return Number.isFinite(n)?n:0}
+function detectType(name,headers){
+  const h=headers.join("|");
+  if(headers.includes("股票名稱")&&headers.includes("股數")&&headers.includes("現值"))return "unrealized";
+  if(headers.includes("股名")&&headers.includes("日期")&&headers.includes("委託書號"))return "statement";
+  if(name.includes("已實現")||h.includes("已實現損益")||(h.includes("買進")&&h.includes("賣出")&&h.includes("損益")))return "realized";
+  return "unknown";
+}
+async function sha256(text){
+  const b=new TextEncoder().encode(text);const d=await crypto.subtle.digest("SHA-256",b);
+  return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+function mapRows(rows){
+  const headers=rows[0].map(x=>x.trim());
+  return rows.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]??""])));
+}
+function fileStamp(name){
+  const m=name.match(/(\d{8})(\d{6})/);if(!m)return new Date().toLocaleString("zh-TW",{hour12:false});
+  return `${m[1].slice(0,4)}/${m[1].slice(4,6)}/${m[1].slice(6,8)} ${m[2].slice(0,2)}:${m[2].slice(2,4)}`;
+}
+async function validateSelected(){
+  const files=[...document.querySelector("#csvFiles").files];
+  if(!files.length){setStatus("尚未選擇CSV","warn");return}
+  const result={files:[],errors:[],warnings:[],newTransactions:0,duplicateTransactions:0};
+  for(const file of files){
+    const text=await file.text();const rows=parseCsv(text);const headers=rows[0]||[];const type=detectType(file.name,headers);const hash=await sha256(text);
+    const entry={name:file.name,text,rows,headers,type,hash,size:file.size,stamp:fileStamp(file.name)};
+    if(type==="unknown")result.errors.push(`${file.name}：無法辨識CSV類型`);
+    if(db.rawFiles?.some(x=>x.hash===hash))result.warnings.push(`${file.name}：原始檔已保存過`);
+    if(type==="unrealized"){
+      const required=["股票名稱","股數","成交均價","市價","現值","付出成本","預估損益","報酬率"];
+      const miss=required.filter(x=>!headers.includes(x));if(miss.length)result.errors.push(`${file.name}：缺少欄位 ${miss.join("、")}`);
+      const data=mapRows(rows).filter(x=>x["股票名稱"]&&!String(x["股票名稱"]).startsWith("總"));
+      if(!data.length)result.errors.push(`${file.name}：沒有持股資料`);
+      entry.parsed=data;
+    }
+    if(type==="statement"){
+      const required=["股名","日期","成交股數","淨收付","成交單價","成交價金","委託書號"];
+      const miss=required.filter(x=>!headers.includes(x));if(miss.length)result.errors.push(`${file.name}：缺少欄位 ${miss.join("、")}`);
+      const data=mapRows(rows).filter(x=>x["股名"]&&x["日期"]);
+      const existing=new Set((db.transactions||[]).map(x=>x.key));
+      entry.parsed=data.map(x=>({...x,key:[x["委託書號"],x["股名"],x["日期"],x["成交股數"],x["成交單價"]].join("|")}));
+      entry.parsed.forEach(x=>existing.has(x.key)?result.duplicateTransactions++:result.newTransactions++);
+    }
+    if(type==="realized"){
+      const data=mapRows(rows);entry.parsed=data;
+      if(!data.length)result.errors.push(`${file.name}：沒有資料列`);
+      result.warnings.push(`${file.name}：V3C.0.1先保存與計數，詳細已實現欄位計算在下一版核對`);
+    }
+    result.files.push(entry);
+  }
+  const types=result.files.map(x=>x.type);
+  if(new Set(types.filter(x=>x!=="unknown")).size!==types.filter(x=>x!=="unknown").length)result.errors.push("同一種類CSV不可一次選擇兩份");
+  staged=result;
+  renderValidation(result);
+  document.querySelector("#applyBtn").disabled=result.errors.length>0;
+  setStatus(result.errors.length?"CSV驗證未通過":"CSV驗證通過，等待確認",result.errors.length?"error":"ok");
+}
+function renderValidation(r){
+  const kind=r.errors.length?"errorbox":"okbox";
+  const cards=r.files.map(f=>`<div class="item"><div class="item-top"><strong>${escapeHtml(f.name)}</strong><strong>${({unrealized:"未實現彙總",statement:"對帳單",realized:"已實現損益",unknown:"無法辨識"})[f.type]}</strong></div><div class="item-bottom"><span>${f.rows.length-1}列・${f.stamp}</span></div></div>`).join("");
+  document.querySelector("#validationResult").innerHTML=`<div class="notice ${kind}"><strong>${r.errors.length?"驗證失敗":"驗證通過"}</strong><br>新交易 ${r.newTransactions}筆／重複交易 ${r.duplicateTransactions}筆${r.errors.map(x=>`<br>❌ ${escapeHtml(x)}`).join("")}${r.warnings.map(x=>`<br>⚠ ${escapeHtml(x)}`).join("")}</div><div class="panel">${cards}</div>`;
+}
+function createBackup(reason){
+  const snap=clone(db);snap.backups=[];
+  db.backups=db.backups||[];db.backups.push({at:nowIso(),reason,data:snap});if(db.backups.length>10)db.backups.shift();
+}
+function applySelected(){
+  if(!staged||staged.errors.length)return;
+  createBackup("匯入CSV前自動備份");
+  const existingHashes=new Set((db.rawFiles||[]).map(x=>x.hash));
+  for(const f of staged.files){
+    if(!existingHashes.has(f.hash)){
+      db.rawFiles.push({name:f.name,type:f.type,hash:f.hash,importedAt:nowIso(),text:f.text});existingHashes.add(f.hash);
+    }
+    if(f.type==="unrealized"){
+      db.ownHoldings=f.parsed.map(x=>({
+        name:x["股票名稱"],shares:num(x["股數"]),averagePrice:num(x["成交均價"]),currentPrice:num(x["市價"]),
+        marketValue:num(x["現值"]),cost:num(x["付出成本"]),unrealized:num(x["預估損益"]),returnRate:num(x["報酬率"])/100
+      }));
+      db.csvUpdatedAt.unrealized=f.stamp;
+    }
+    if(f.type==="statement"){
+      const existing=new Set((db.transactions||[]).map(x=>x.key));
+      for(const x of f.parsed){if(!existing.has(x.key)){db.transactions.push(x);existing.add(x.key)}}
+      db.csvUpdatedAt.statement=f.stamp;
+    }
+    if(f.type==="realized"){
+      db.realizedRows=f.parsed;db.csvUpdatedAt.realized=f.stamp;
+    }
+  }
+  db.asOf=new Date().toLocaleString("zh-TW",{hour12:false});
+  upsertPerformanceSnapshot("CSV更新快照");
+  db.auditLog.push({at:nowIso(),action:"本機CSV更新",detail:`匯入${staged.files.length}份；新增交易${staged.newTransactions}筆、重複${staged.duplicateTransactions}筆；自由股依未實現彙總直接覆蓋；今日獲利維持原資料，不與未實現損益混算；已建立當日績效快照。`});
+  saveDb();staged=null;document.querySelector("#csvFiles").value="";showSelected();render();setStatus("本機帳目更新完成 ✓","ok");
+}
+function exportBackup(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`KPMS_V3C_BACKUP_${new Date().toISOString().replace(/\D/g,"").slice(0,14)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  db.auditLog.push({at:nowIso(),action:"匯出完整備份",detail:"已下載JSON備份檔。"});saveDb();render();
+}
+async function restoreBackup(file){
+  if(!file)return;try{
+    const restored=JSON.parse(await file.text());if(!restored.version||!Array.isArray(restored.ownHoldings))throw new Error("格式不符");
+    createBackup("還原外部備份前");const previousBackups=db.backups||[];db=restored;db.backups=[...(restored.backups||[]),...previousBackups].slice(-10);
+    db.auditLog=db.auditLog||[];db.auditLog.push({at:nowIso(),action:"還原完整備份",detail:file.name});saveDb();render();setStatus("備份還原完成 ✓","ok");
+  }catch(e){setStatus("備份還原失敗","error");alert("備份檔格式錯誤："+e.message)}
+}
+function resetLocal(){
+  if(!confirm("確定清除本機私人資料並回到公開空白版？GitHub與Google不受影響。"))return;
+  db=clone(SEED);saveDb();render();setStatus("已重設為公開空白版","warn");
+}
+render();saveDb();
+</script>
+</body>
+</html>
