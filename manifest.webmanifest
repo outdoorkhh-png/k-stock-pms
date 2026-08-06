@@ -1,0 +1,38 @@
+{
+  "id": "/k-stock-pms/",
+  "name": "K股票PMS",
+  "short_name": "K股票PMS",
+  "description": "K股票PMS 手機獲利看板，券商帳目與 Yahoo 行情分離。",
+  "lang": "zh-Hant",
+  "start_url": "/k-stock-pms/",
+  "scope": "/k-stock-pms/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#edf3f6",
+  "theme_color": "#103655",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#103655">
 <meta http-equiv="Cache-Control" content="no-store">
-<title>K股票PMS V3C.0.13｜Android本地測試版</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta name="application-name" content="K股票PMS">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="K股票PMS">
+<title>K股票PMS V3C.0.14｜手機PWA版</title>
 <style>
 :root{--navy:#103655;--blue:#24729f;--paper:#edf3f6;--card:#fff;--ink:#142837;--muted:#71818e;--line:#d8e2e8;--positive:#c00000;--negative:#006400;--warn:#956d00;--shadow:0 10px 28px rgba(17,52,80,.10)}
 *{box-sizing:border-box}html{font-size:17px;background:var(--paper)}body{margin:0;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;background:linear-gradient(180deg,#dcecf5 0,#edf3f6 270px)}button,input{font:inherit}.app{width:min(100%,720px);margin:auto;padding:max(14px,env(safe-area-inset-top)) 12px calc(84px + env(safe-area-inset-bottom))}
@@ -129,7 +136,7 @@
 </nav>
 
 <script>
-const SEED = {"version":"V3C.0.13","mode":"GITHUB_PAGES_PUBLIC_SHELL","asOf":"尚未還原私人備份","csvUpdatedAt":{"statement":"—","unrealized":"—","realized":"—"},"ownHoldings":[],"pledgedHoldings":[],"loan":{"dataDate":"—","collateralValue":0,"creditLimit":0,"principal":0,"available":0,"interest":0,"repayment":0,"maintenanceRate":0,"pledgedShares":0},"performance":{"startDate":"","endDate":"","realized":0,"paidDividends":0,"pendingDividends":0,"pledgeInterest":0,"cashNet":0,"investedPrincipal":0},"dailyPnl":{"date":"","label":"尚未還原私人備份","own":0,"pledged":0,"total":0,"source":"尚未更新","isCurrent":false},"performanceSnapshots":[],"transactions":[],"realizedRows":[],"rawFiles":[],"auditLog":[{"at":"2026-08-06T20:34:00+08:00","action":"公開安全版初始化","detail":"此網頁不含任何私人帳目。請在備份頁還原私人JSON。"}],"backups":[],"performanceEvents":[],"capitalLedger":[],"pledgeHistory":[],"loanRecords":[],"dividendRecords":[],"updateLogs":[],"dailyPnlHistory":[],"migration":{"readOnlyMigration":true,"publicShell":true,"privateDataEmbedded":false}};
+const SEED = {"version":"V3C.0.14","mode":"GITHUB_PAGES_PUBLIC_SHELL","asOf":"尚未還原私人備份","csvUpdatedAt":{"statement":"—","unrealized":"—","realized":"—"},"ownHoldings":[],"pledgedHoldings":[],"loan":{"dataDate":"—","collateralValue":0,"creditLimit":0,"principal":0,"available":0,"interest":0,"repayment":0,"maintenanceRate":0,"pledgedShares":0},"performance":{"startDate":"","endDate":"","realized":0,"paidDividends":0,"pendingDividends":0,"pledgeInterest":0,"cashNet":0,"investedPrincipal":0},"dailyPnl":{"date":"","label":"尚未還原私人備份","own":0,"pledged":0,"total":0,"source":"尚未更新","isCurrent":false},"performanceSnapshots":[],"transactions":[],"realizedRows":[],"rawFiles":[],"auditLog":[{"at":"2026-08-06T20:34:00+08:00","action":"公開安全版初始化","detail":"此網頁不含任何私人帳目。請在備份頁還原私人JSON。"}],"backups":[],"performanceEvents":[],"capitalLedger":[],"pledgeHistory":[],"loanRecords":[],"dividendRecords":[],"updateLogs":[],"dailyPnlHistory":[],"migration":{"readOnlyMigration":true,"publicShell":true,"privateDataEmbedded":false}};
 const DB_KEY = "kpms-v3c-pages-v13";
 let db = loadDb();
 let staged = null;
@@ -348,7 +355,7 @@ function onYahooQuotesResult(payload){
     db.quoteUpdatedAt=taipeiDateTime(latest);
     db.quoteSource=data.source||"Yahoo股市台灣版（GitHub雲端）";
     db.quoteMethods=data.methods||{};
-    db.version="V3C.0.13";
+    db.version="V3C.0.14";
     db.auditLog=db.auditLog||[];
     db.auditLog.push({
       at:nowIso(),
@@ -374,13 +381,13 @@ function loadDb(){
   try{
     const saved=localStorage.getItem(DB_KEY);
     const loaded=saved?JSON.parse(saved):clone(SEED);
-    loaded.version="V3C.0.13";
+    loaded.version="V3C.0.14";
     loaded.auditLog=loaded.auditLog||[];
     loaded.backups=loaded.backups||[];
     return loaded;
   }catch(e){
     const fresh=clone(SEED);
-    fresh.version="V3C.0.13";
+    fresh.version="V3C.0.14";
     return fresh;
   }
 }
@@ -828,6 +835,18 @@ function resetLocal(){
   db=clone(SEED);saveDb();render();setStatus("已重設為公開空白版","warn");
 }
 render();saveDb();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("./sw.js", { scope: "./" });
+      console.log("KPMS PWA service worker registered");
+    } catch (error) {
+      console.error("KPMS PWA service worker registration failed", error);
+    }
+  });
+}
 </script>
 </body>
 </html>
