@@ -1,64 +1,64 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-08-12T09:47:11.660613+00:00",
+  "generatedAt": "2026-08-13T03:28:08.330886+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
   "quotes": {
     "00403A.TW": {
       "symbol": "00403A.TW",
-      "price": 10.1,
-      "previousClose": 9.9,
-      "marketTime": 1786464000,
+      "price": 10.3,
+      "previousClose": 9.94,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00407A.TW": {
       "symbol": "00407A.TW",
-      "price": 9.66,
-      "previousClose": 9.49,
-      "marketTime": 1786464000,
+      "price": 9.84,
+      "previousClose": 9.55,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "0050.TW": {
       "symbol": "0050.TW",
-      "price": 105.2,
-      "previousClose": 104.25,
-      "marketTime": 1786464000,
+      "price": 106.5,
+      "previousClose": 104.6,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "009816.TW": {
       "symbol": "009816.TW",
-      "price": 15.26,
-      "previousClose": 15.12,
-      "marketTime": 1786464000,
+      "price": 15.48,
+      "previousClose": 15.16,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00981A.TW": {
       "symbol": "00981A.TW",
-      "price": 29.34,
-      "previousClose": 28.53,
-      "marketTime": 1786464000,
+      "price": 29.94,
+      "previousClose": 28.73,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2330.TW": {
       "symbol": "2330.TW",
-      "price": 2415.0,
-      "previousClose": 2395.0,
-      "marketTime": 1786464000,
+      "price": 2430.0,
+      "previousClose": 2415.0,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2727.TW": {
       "symbol": "2727.TW",
-      "price": 234.0,
-      "previousClose": 236.5,
-      "marketTime": 1786464000,
+      "price": 231.5,
+      "previousClose": 234.0,
+      "marketTime": 1786550400,
       "currency": "TWD",
       "exchangeName": "TAI"
     }
