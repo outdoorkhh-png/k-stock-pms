@@ -1,14 +1,14 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-08-13T05:19:54.273499+00:00",
+  "generatedAt": "2026-08-13T06:57:46.899967+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
   "quotes": {
     "00403A.TW": {
       "symbol": "00403A.TW",
-      "price": 10.32,
+      "price": 10.3,
       "previousClose": 9.94,
       "marketTime": 1786550400,
       "currency": "TWD",
@@ -24,7 +24,7 @@
     },
     "0050.TW": {
       "symbol": "0050.TW",
-      "price": 106.6,
+      "price": 106.7,
       "previousClose": 104.6,
       "marketTime": 1786550400,
       "currency": "TWD",
@@ -32,7 +32,7 @@
     },
     "009816.TW": {
       "symbol": "009816.TW",
-      "price": 15.5,
+      "price": 15.52,
       "previousClose": 15.16,
       "marketTime": 1786550400,
       "currency": "TWD",
@@ -40,7 +40,7 @@
     },
     "00981A.TW": {
       "symbol": "00981A.TW",
-      "price": 30.0,
+      "price": 29.95,
       "previousClose": 28.73,
       "marketTime": 1786550400,
       "currency": "TWD",
