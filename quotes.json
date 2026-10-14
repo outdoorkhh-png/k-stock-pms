@@ -1,64 +1,64 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-10-13T13:27:11.571073+00:00",
+  "generatedAt": "2026-10-14T05:55:52.269015+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
   "quotes": {
     "00403A.TW": {
       "symbol": "00403A.TW",
-      "price": 10.92,
+      "price": 11.0,
       "previousClose": 11.29,
-      "marketTime": 1791820800,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00407A.TW": {
       "symbol": "00407A.TW",
-      "price": 10.21,
+      "price": 10.25,
       "previousClose": 10.59,
-      "marketTime": 1791820800,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "0050.TW": {
       "symbol": "0050.TW",
-      "price": 112.4,
+      "price": 113.0,
       "previousClose": 114.8,
-      "marketTime": 1791820800,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "009816.TW": {
       "symbol": "009816.TW",
-      "price": 16.61,
+      "price": 16.65,
       "previousClose": 16.89,
-      "marketTime": 1791820800,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00981A.TW": {
       "symbol": "00981A.TW",
-      "price": 31.06,
-      "previousClose": 32.24,
-      "marketTime": 1791820800,
+      "price": 31.19,
+      "previousClose": 32.3,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2330.TW": {
       "symbol": "2330.TW",
       "price": 2490.0,
-      "previousClose": 2550.0,
-      "marketTime": 1791820800,
+      "previousClose": 2490.0,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2727.TW": {
       "symbol": "2727.TW",
-      "price": 241.5,
-      "previousClose": 237.5,
-      "marketTime": 1791820800,
+      "price": 242.0,
+      "previousClose": 241.5,
+      "marketTime": 1791907200,
       "currency": "TWD",
       "exchangeName": "TAI"
     }
