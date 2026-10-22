@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-10-22T05:51:53.027626+00:00",
+  "generatedAt": "2026-10-22T11:04:16.208146+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
@@ -9,7 +9,7 @@
     "00403A.TW": {
       "symbol": "00403A.TW",
       "price": 10.04,
-      "previousClose": 10.18,
+      "previousClose": 10.32,
       "marketTime": 1792598400,
       "currency": "TWD",
       "exchangeName": "TAI"
@@ -17,7 +17,7 @@
     "00407A.TW": {
       "symbol": "00407A.TW",
       "price": 9.33,
-      "previousClose": 9.51,
+      "previousClose": 9.61,
       "marketTime": 1792598400,
       "currency": "TWD",
       "exchangeName": "TAI"
@@ -25,7 +25,7 @@
     "0050.TW": {
       "symbol": "0050.TW",
       "price": 106.9,
-      "previousClose": 107.25,
+      "previousClose": 108.15,
       "marketTime": 1792598400,
       "currency": "TWD",
       "exchangeName": "TAI"
@@ -33,7 +33,7 @@
     "009816.TW": {
       "symbol": "009816.TW",
       "price": 15.93,
-      "previousClose": 15.93,
+      "previousClose": 16.08,
       "marketTime": 1792598400,
       "currency": "TWD",
       "exchangeName": "TAI"
@@ -41,7 +41,7 @@
     "00981A.TW": {
       "symbol": "00981A.TW",
       "price": 28.19,
-      "previousClose": 28.73,
+      "previousClose": 28.88,
       "marketTime": 1792598400,
       "currency": "TWD",
       "exchangeName": "TAI"
