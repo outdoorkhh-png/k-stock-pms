@@ -1,64 +1,64 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-10-27T11:31:51.775522+00:00",
+  "generatedAt": "2026-10-28T06:42:49.779413+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
   "quotes": {
     "00403A.TW": {
       "symbol": "00403A.TW",
-      "price": 9.86,
+      "price": 10.25,
       "previousClose": 10.04,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00407A.TW": {
       "symbol": "00407A.TW",
-      "price": 9.18,
+      "price": 9.6,
       "previousClose": 9.33,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "0050.TW": {
       "symbol": "0050.TW",
-      "price": 106.6,
+      "price": 108.65,
       "previousClose": 106.9,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "009816.TW": {
       "symbol": "009816.TW",
-      "price": 15.9,
+      "price": 16.17,
       "previousClose": 15.93,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00981A.TW": {
       "symbol": "00981A.TW",
-      "price": 27.4,
+      "price": 28.65,
       "previousClose": 28.19,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2330.TW": {
       "symbol": "2330.TW",
-      "price": 2400.0,
-      "previousClose": 2385.0,
-      "marketTime": 1793030400,
+      "price": 2425.0,
+      "previousClose": 2400.0,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2727.TW": {
       "symbol": "2727.TW",
-      "price": 245.5,
+      "price": 242.5,
       "previousClose": 245.5,
-      "marketTime": 1793030400,
+      "marketTime": 1793116800,
       "currency": "TWD",
       "exchangeName": "TAI"
     }
