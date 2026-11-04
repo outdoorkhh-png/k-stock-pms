@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-11-03T13:32:01.284925+00:00",
+  "generatedAt": "2026-11-04T07:21:08.763871+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
@@ -10,55 +10,55 @@
       "symbol": "00403A.TW",
       "price": 9.05,
       "previousClose": 9.62,
-      "marketTime": 1793635200,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00407A.TW": {
       "symbol": "00407A.TW",
-      "price": 8.38,
+      "price": 8.37,
       "previousClose": 8.93,
-      "marketTime": 1793635200,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "0050.TW": {
       "symbol": "0050.TW",
-      "price": 100.6,
+      "price": 99.85,
       "previousClose": 104.1,
-      "marketTime": 1793635200,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "009816.TW": {
       "symbol": "009816.TW",
-      "price": 15.04,
+      "price": 14.91,
       "previousClose": 15.56,
-      "marketTime": 1793635200,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "00981A.TW": {
       "symbol": "00981A.TW",
-      "price": 24.9,
+      "price": 25.14,
       "previousClose": 26.57,
-      "marketTime": 1793635200,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2330.TW": {
       "symbol": "2330.TW",
-      "price": 2295.0,
-      "previousClose": 2330.0,
-      "marketTime": 1793635200,
+      "price": 2260.0,
+      "previousClose": 2295.0,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2727.TW": {
       "symbol": "2727.TW",
-      "price": 244.0,
-      "previousClose": 246.0,
-      "marketTime": 1793635200,
+      "price": 243.5,
+      "previousClose": 244.0,
+      "marketTime": 1793721600,
       "currency": "TWD",
       "exchangeName": "TAI"
     }
