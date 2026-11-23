@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "source": "Yahoo股市台灣版（GitHub雲端批次）",
-  "generatedAt": "2026-11-23T08:43:52.518765+00:00",
+  "generatedAt": "2026-11-23T17:14:55.844207+00:00",
   "expected": 7,
   "count": 7,
   "complete": true,
@@ -48,17 +48,17 @@
     },
     "2330.TW": {
       "symbol": "2330.TW",
-      "price": 2030.0,
-      "previousClose": 2000.0,
-      "marketTime": 1795363200,
+      "price": 2000.0,
+      "previousClose": 2100.0,
+      "marketTime": 1795104000,
       "currency": "TWD",
       "exchangeName": "TAI"
     },
     "2727.TW": {
       "symbol": "2727.TW",
-      "price": 218.5,
-      "previousClose": 218.0,
-      "marketTime": 1795363200,
+      "price": 218.0,
+      "previousClose": 224.0,
+      "marketTime": 1795104000,
       "currency": "TWD",
       "exchangeName": "TAI"
     }
